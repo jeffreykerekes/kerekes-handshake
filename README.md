@@ -2,7 +2,7 @@
 **A universal protocol for moving any domain from Probabilistic Trust to Deterministic Verification.**
 
 > *Everyone is racing to put property deeds on the blockchain — but who is putting the new roof receipt in claims.json?*
-
+> *This protocol makes claims auditable, not automatically verified. A PGP signature proves who vouched for the evidence — not that the underlying document is authentic. The auditor still makes the final judgment.*
 ---
 
 ## The Problem

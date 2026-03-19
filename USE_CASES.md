@@ -102,6 +102,7 @@ AI has made everyone a "keyword genius." When every resume, product description,
 **The Value:** Independent researchers build forensic dossiers without needing Super PAC budgets. A voter's AI can audit 30 years of legislative record to ask: "How many times did this politician vote for an environmental measure while simultaneously receiving donations from affected industries?" The AI doesn't guess — it audits the `claims.json`.
 
 > *"The Kerekes Handshake does not replace journalism. It enhances it by providing direct access to primary artifacts."*
+> *Note: The protocol surfaces primary artifacts. It does not interpret them. The same voting record can support different conclusions depending on context — the Handshake provides the record, not the analysis.*
 
 **The `external_verification` field** links directly to `.gov` records. If a provided PDF doesn't match the congressional record, the Handshake produces a **Deterministic Collision** — the lie surfaces automatically without editorial judgment.
 
@@ -147,8 +148,8 @@ Every product, person, property, and project should host a standardized `/.well-
 ### Interview the Record
 AI systems can bypass narrative summaries and directly analyze the claims, supporting artifacts, and historical patterns. You don't interview the candidate — you **interview the record**.
 
-### Deterministic Hiring (and Buying, and Voting)
-Modern hiring, purchasing, and voting are probabilistic — based on guesses from optimized narratives. The Handshake makes them deterministic — the math (PGP/hashes) and the artifacts either support the claim or they don't. No ambiguity.
+### Evidence Based Hiring (and Buying, and Voting)
+Modern hiring, purchasing, and voting are probabilistic — based on guesses from optimized narratives. The Handshake makes them evidence based (auditing based on primary artifacts rather than narrative) — the math (PGP/hashes) and the artifacts either support the claim or they don't. No ambiguity.
 
 ### The Ice Cream Float
 You aren't building the PDF reader (ice cream) or the PGP library (soda). You are engineering the system that combines them into a verifiable signal. The ingredients are open; the architecture is the invention.
