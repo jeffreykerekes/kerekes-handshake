@@ -1,61 +1,96 @@
-# Kerekes Handshake™ v1.5
-**Turn your resume from "tell" into verifiable proof — no trust required.**
+# Kerekes Handshake™ v1.6
+**A universal protocol for moving any domain from Probabilistic Trust to Deterministic Verification.**
+
+> *Everyone is racing to put property deeds on the blockchain — but who is putting the new roof receipt in claims.json?*
 
 ---
 
-## What I Learned Building This
+## The Problem
 
-While building this, I discovered that most AI crawlers fail on binary PDFs in real-time. The solution: every evidence file exists in two formats — PDF for humans, `.txt` for machines. This is the **Text Bridge** — the core innovation of v1.5.
+AI has made everyone a "keyword genius." When every resume, product description, and political bio is perfectly optimized, the signal-to-noise ratio drops to zero. Traditional trust systems — star ratings, editorial summaries, brochures, press releases — are all probabilistic. They ask you to guess.
 
----
-
-## Why I Built This
-
-I hate writing resumes. After 15+ years self-employed, I realized that modern AI resume tools force everything into a fluffy two-page limit where every bullet is "tell, don't show."
-
-The **Kerekes Handshake** is an open protocol that links every claim on your resume to real evidence (PDFs, audits, reports, certifications). Now recruiters or AI agents can audit your career in one click instead of taking your word for it.
+**The Kerekes Handshake ignores keywords. It audits provenance.**
 
 ---
 
 ## What It Is
 
-A lightweight, 3-layer forensic protocol that turns any resume into an auditable system:
+A lightweight, open protocol that anchors any claim to a forensic vault of primary artifacts, making it auditable by humans and AI agents.
 
-1. **Narrative Layer:** Your resume (HTML/PDF) tagged with `data-kcm` IDs.
-2. **Registry Layer:** A `claims.json` ledger mapping IDs to evidence URIs.
-3. **Integrity Layer:** A PGP-signed `site_manifest.json.asc` providing a cryptographic Root of Trust.
+The universal circuit:
+
+```
+Actor → Claim → Artifact Vault → Verification
+```
+
+The same protocol that verifies a resume also verifies a plumber's license, a nonprofit's financials, a property's condition history, or a politician's 30-year voting record.
+
+---
+
+## The Three-Layer Stack
+
+1. **Narrative Layer:** The human-readable summary — tagged with `data-kcm` anchors.
+2. **Registry Layer:** `claims.json` — maps each claim ID to evidence URIs.
+3. **Integrity Layer:** `site_manifest.json.asc` — PGP-signed SHA-256 manifest. The Root of Trust.
+
+---
+
+## v1.6: Two Innovations
+
+### The Vault Resume
+Stop explaining your work in prose. Put the wins on a dense half-page. Let AI pull the vault.
+
+```
+HUMAN LAYER (half-page):   Dense stubs → six-second scan → "worth a query"
+                                         ↓
+AI LAYER (infinite vault):  Fetch evidence → verify claims → return verdict
+```
+
+See [SPEC.md Section 9](./SPEC.md) for the full Vault Resume standard.
+
+### Universal Claims
+The same architecture applies to any actor making any claim. See [USE_CASES.md](./USE_CASES.md) for the full range of applications — from Joe the Plumber to fractional real estate to civic accountability.
+
+The generic schema: [kerekes_universal_claims_schema.json](./kerekes_universal_claims_schema.json)
+
+---
+
+## Use Cases
+
+| Actor | Claim | The Vault |
+|---|---|---|
+| **Job candidate** | "Saved the city $3.4M" | Budget spreadsheets, FOI rulings, press coverage |
+| **Joe the Plumber** | "Licensed for gas lines" | Permits, insurance certs, inspection photos |
+| **LG Dishwasher** | "Cleans 30% better" | Lab data, Energy Star ratings, service manual |
+| **Real estate listing** | "New roof (2022)" | Paid invoice, permit, inspection sign-off |
+| **Nonprofit** | "90% to the field" | PGP-signed audits, ledger snapshots |
+| **Politician** | "Voted for the environment" | 30-year roll-call history, donation records |
+
+Full detail: [USE_CASES.md](./USE_CASES.md)
 
 ---
 
 ## Two Ways to Implement
 
 ### Path A — Build It Yourself
-Follow the full spec and deploy manually. Start with:
-- [SPEC.md](./SPEC.md) — Protocol overview and non-technical quick start
+- [SPEC.md](./SPEC.md) — Protocol overview and Vault Resume standard
 - [IMPLEMENTATION.md](./IMPLEMENTATION.md) — Full technical reference
-- [DEPLOY-CHECKLIST.md](./DEPLOY-CHECKLIST.md) — 5-minute deployment walkthrough
+- [USE_CASES.md](./USE_CASES.md) — Domain-specific applications
+- [DEPLOY-CHECKLIST.md](./DEPLOY-CHECKLIST.md) — 5-minute deployment
 
 ### Path B — Let Claude Build It For You
-No coding required. Upload your resume and evidence files to Claude and paste one prompt.
+No coding required. Upload your resume (or any evidence set) to Claude and paste one prompt.
 
 → **[CLAUDE_QUICKSTART.md](./CLAUDE_QUICKSTART.md)**
 
 ---
 
-## Quick Start (Manual)
-
-1. **Evidence:** Place PDFs and matching `.txt` sidecars in `/evidence/`.
-2. **Manifest:** Generate a `site_manifest.json` with SHA-256 hashes and sign it with PGP.
-3. **Markup:** Tag your resume claims with `<article data-kcm="claim_id">`.
-4. **Audit:** Deploy the `/query/` portal to give recruiters a one-click verification interface.
-
----
-
 ## Sample Audit Queries
 
-* *"Compare the claims on this resume against the artifacts in the evidence folder. Highlight any discrepancies."*
-* *"Verify the '2011 Budget Audit' claim. Which specific documents support the $38k debt figure?"*
-* *"Check the PGP signature of the manifest. Is the evidence vault intact and untampered?"*
+* *"Verify all claims on this resume. Flag anything unsupported."*
+* *"Interview the van: is this plumber's license current and has their work passed inspection?"*
+* *"Audit this politician's 30-year environmental record against their donor history."*
+* *"Verify the property condition claims before I wire a fractional share payment."*
 
 ---
 
@@ -70,19 +105,17 @@ No coding required. Upload your resume and evidence files to Claude and paste on
 
 ## Identity Verification
 
-This implementation is cryptographically signed by its author.
-
 - **PGP Fingerprint:** `D39E 4ACE A4FE 3E6B 547F 58C4 6174 3446 DFA7 D48F`
-- **Signed Identity Summary:** [jeffreykerekes.com/verify/summary.txt](https://jeffreykerekes.com/verify/summary.txt)
+- **Signed Summary:** [jeffreykerekes.com/verify/summary.txt](https://jeffreykerekes.com/verify/summary.txt)
 - **Public Key:** [verify/pubkey.txt](./verify/pubkey.txt)
 
 ---
 
 ## License (CC BY-SA 4.0)
 
-You are free to use, remix, and build on this protocol. You must credit **Jeffrey Kerekes** and keep your derivatives open. No proprietary "walled gardens" allowed.
+Free to use, remix, and build on. Credit Jeffrey Kerekes. Keep derivatives open. No proprietary walled gardens.
 
 ---
 
 **Created by Jeffrey Kerekes — Systems Practitioner**
-[Live Demo](https://jeffreykerekes.com) | [Protocol Spec](./SPEC.md) | [Whitepaper](./Kerekes-Handshake-Whitepaper-Spec-V1.5.pdf)
+[Live Demo](https://jeffreykerekes.com) | [Protocol Spec](./SPEC.md) | [Whitepaper](./Kerekes-Handshake-Whitepaper-Spec-V1.6.pdf) | [Use Cases](./USE_CASES.md)

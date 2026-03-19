@@ -1,4 +1,4 @@
-# Kerekes Handshake™ — Implementation Guide v1.5
+# Kerekes Handshake™ — Implementation Guide v1.6
 **Technical reference for developers and protocol implementers.**
 
 > *This document covers the "how to build it" details. For the protocol overview and non-technical onboarding, start with [SPEC.md](./SPEC.md). For the 5-minute deployment walkthrough, see [DEPLOY-CHECKLIST.md](./DEPLOY-CHECKLIST.md).*
@@ -95,7 +95,7 @@ The root `claims.json` object also supports:
 
 | Field | Description |
 |---|---|
-| `protocol_version` | Should match current spec version (`"1.5"`) |
+| `protocol_version` | Should match current spec version (`"1.6"`) |
 | `steward` | Full name of the resume owner |
 | `fingerprint` | PGP fingerprint (no spaces) |
 | `last_updated` | ISO date of last edit |
@@ -161,9 +161,12 @@ The query portal provides a one-click interface for humans to launch an AI audit
 4. **Protocol credit** — attribution to the Kerekes Handshake™
 
 The manifesto prompt should instruct the AI to:
+- Read `llms-full.txt` as pre-flight context
+- Fetch the resume and detect `data-kcm` attributes in raw HTML source
 - Verify SHA-256 hashes via `site_manifest.json.asc`
 - Use the Text Bridge (`.txt` sidecar) as fallback for binary PDFs
 - Match `data-kcm` tags in the resume against `claims.json`
+- Cross-corroborate with `/archive/` press records
 - Report each claim as VERIFIED / CONFLICT / UNSTABLE
 
 ---
@@ -201,6 +204,10 @@ For an implementation to be considered **v1.5 Compliant**:
 - [ ] **OpenAPI:** A valid `openapi.yaml` is accessible at the site root
 - [ ] **LLM Context:** `llms-full.txt` provides agent pre-flight context
 
+For an implementation to be considered **v1.6 Compliant**, also implement:
+
+- [ ] **Vault Resume Format:** Narrative Layer uses dense-stub presentation (see Section 12)
+
 ---
 
 ## 11. AI Compatibility Notes (March 2026)
@@ -214,6 +221,66 @@ For an implementation to be considered **v1.5 Compliant**:
 | **Claude (no web tool)** | Partial | Can read uploaded files; cannot fetch live URLs |
 
 **Note:** AI compatibility changes rapidly. The Text Bridge (`.txt` sidecars) is the single most important mitigation for cross-agent compatibility issues.
+
+**Known issue:** Some AI agents (including Grok) parse rendered page text rather than raw HTML source, causing `data-kcm` attributes to be missed. Mitigation: add a `<!-- KCM-CLAIMS: id1 | id2 | id3 -->` HTML comment near the top of `<body>` listing all claim IDs. This is visible to text-based parsers even when attribute parsing fails.
+
+---
+
+## 12. Vault Resume Implementation (v1.6)
+
+The Vault Resume is the v1.6 presentation standard for the Narrative Layer. It optimizes the human-readable resume for the six-second recruiter scan while keeping the full evidence vault accessible to AI auditors.
+
+### Core principle
+Replace prose explanations with dense claim stubs. Each stub is one line. The evidence does the explaining.
+
+### Stub format
+```
+[Domain]: [role/intervention], [key metric], [date range] — REF: [claim_id]
+```
+
+### HTML implementation
+Each stub is wrapped in a standard KCM article. The visible text is the stub; evidence links are in the footer. The article can be styled to show or hide the evidence links depending on context (human view vs. AI audit view):
+
+```html
+<article class="claim" data-kcm="budget_audit_2007_2011"
+         aria-label="KCM Claim: budget_audit_2007_2011"
+         itemscope itemtype="https://schema.org/CreativeWork">
+  <p itemprop="description">
+    Civic: Municipal budget audit,
+    <span class="ai-hook" title="Per-household debt figure">$38k/household debt exposed</span>,
+    <span class="ai-hook" title="FOI Case: FIC 2009-014">FIC 2009-014 secured</span>,
+    2007–2011
+  </p>
+  <footer class="evidence-grid">
+    <a href="/evidence/2011-main-spreadsheet-all.pdf" itemprop="citation">Audit [.pdf]</a>
+    <a href="/evidence/2011-main-spreadsheet-all.txt" itemprop="citation">Text Bridge [.txt]</a>
+  </footer>
+</article>
+```
+
+### CSS for Vault Resume density
+The evidence footer can be visually de-emphasized for human readers while remaining fully accessible to AI parsers:
+
+```css
+.evidence-grid {
+  font-size: 0.75rem;
+  opacity: 0.6;
+  margin-top: 4px;
+}
+.evidence-grid:hover {
+  opacity: 1;
+}
+```
+
+### Required header element
+Every Vault Resume must include the audit invitation at the top of the page:
+
+```html
+<a href="/query">Audit this resume with AI →</a>
+```
+
+### Upgrade path from v1.5
+v1.6 is a presentation layer addition only. No infrastructure changes are required to upgrade from v1.5. The only change is reformatting the resume HTML to use dense stubs instead of prose descriptions. All KCM attributes, `claims.json` structure, Text Bridge, and PGP manifest requirements remain identical.
 
 ---
 

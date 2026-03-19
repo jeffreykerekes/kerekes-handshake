@@ -1,0 +1,190 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Kerekes Handshake™ — Universal Claim Schema",
+  "description": "A domain-agnostic schema for anchoring any claim to a forensic vault of primary artifacts. Applicable to professional credentials, trades, consumer goods, real estate, civic accountability, nonprofits, and creative portfolios.",
+  "version": "1.6",
+  "type": "object",
+  "required": ["claim_id", "actor", "claim", "evidence"],
+  "properties": {
+    "claim_id": {
+      "type": "string",
+      "description": "Unique slug identifying this claim (e.g., 'gas_line_cert_2024', 'roof_replacement_2022', 'vote_record_1998')."
+    },
+    "actor": {
+      "type": "string",
+      "enum": ["person", "company", "organization", "product", "property", "institution"],
+      "description": "The type of entity making the claim."
+    },
+    "actor_name": {
+      "type": "string",
+      "description": "Human-readable name of the actor (e.g., 'Joe's Plumbing LLC', 'LG Electronics', 'Jeffrey Kerekes')."
+    },
+    "domain": {
+      "type": "string",
+      "description": "The system category this claim belongs to (e.g., 'Trades', 'Consumer Goods', 'Civic Systems', 'Real Estate', 'Human Systems', 'Ecological Systems')."
+    },
+    "claim": {
+      "type": "string",
+      "description": "The specific statement being asserted in plain language (e.g., 'Certified for high-pressure gas lines and fully insured as of 2024.')."
+    },
+    "evidence": {
+      "type": "array",
+      "description": "Primary artifacts supporting the claim. Each artifact should have a matching .txt sidecar for AI extraction (the Text Bridge).",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["type", "url"],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["document", "dataset", "image", "video", "audio", "certification", "permit", "inspection", "ledger", "source_file"],
+            "description": "The nature of the artifact."
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "Absolute URL to the primary artifact. A matching .txt sidecar should exist at the same path with .txt extension."
+          },
+          "description": {
+            "type": "string",
+            "description": "What this specific artifact proves about the claim."
+          }
+        }
+      }
+    },
+    "outcome": {
+      "type": "string",
+      "description": "The measurable or verifiable result of the claim (e.g., 'Passed municipal inspection 2024-03-15', 'Certificate valid through 2026-01-01')."
+    },
+    "external_verification": {
+      "type": "array",
+      "description": "Links to third-party public records that independently corroborate the claim. Creates a Deterministic Collision if a provided artifact conflicts with the public record.",
+      "items": {
+        "type": "object",
+        "required": ["source", "url"],
+        "properties": {
+          "source": {
+            "type": "string",
+            "description": "Name of the third-party source (e.g., 'Connecticut State Licensing Board', 'congress.gov', 'county-assessor.gov')."
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "Direct URL to the public record."
+          }
+        }
+      }
+    },
+    "integrity": {
+      "type": "object",
+      "description": "Cryptographic provenance layer. Identifies who vouched for the evidence and when.",
+      "properties": {
+        "signature": {
+          "type": "string",
+          "description": "PGP signature or SHA-256 hash of the manifest."
+        },
+        "signed_by": {
+          "type": "string",
+          "description": "Name or PGP fingerprint of the entity signing the manifest."
+        },
+        "signed_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 timestamp of when the manifest was signed."
+        },
+        "manifest_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to the PGP-signed site_manifest.json.asc file."
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "claim_id": "gas_line_cert_2024",
+      "actor": "person",
+      "actor_name": "Joe's Plumbing LLC",
+      "domain": "Trades",
+      "claim": "Licensed and insured for high-pressure gas lines. License valid through 2026.",
+      "evidence": [
+        {
+          "type": "certification",
+          "url": "https://joesplumbing.com/evidence/gas_license_2024.pdf",
+          "description": "State-issued gas line certification, valid 2024–2026."
+        },
+        {
+          "type": "permit",
+          "url": "https://joesplumbing.com/evidence/municipal_permits_2023.pdf",
+          "description": "Last 5 municipal permit approvals with inspection sign-offs."
+        }
+      ],
+      "outcome": "All recent jobs passed municipal inspection on first review.",
+      "external_verification": [
+        {
+          "source": "State Licensing Board",
+          "url": "https://license.state.gov/verify/12345"
+        }
+      ],
+      "integrity": {
+        "signed_by": "Joe Smith — D39E...D48F",
+        "manifest_url": "https://joesplumbing.com/site_manifest.json.asc"
+      }
+    },
+    {
+      "claim_id": "roof_replacement_2022",
+      "actor": "property",
+      "actor_name": "123 Elm Street, New Haven CT",
+      "domain": "Real Estate",
+      "claim": "Roof fully replaced in 2022. Permitted and inspected.",
+      "evidence": [
+        {
+          "type": "document",
+          "url": "https://property-vault.com/123elm/evidence/roof_invoice_2022.pdf",
+          "description": "Paid roofing contractor invoice dated April 2022."
+        },
+        {
+          "type": "permit",
+          "url": "https://property-vault.com/123elm/evidence/building_permit_2022.pdf",
+          "description": "Municipal building permit with final inspection approval."
+        }
+      ],
+      "outcome": "Roof warranty valid through 2042. Final inspection passed 2022-05-03.",
+      "external_verification": [
+        {
+          "source": "New Haven Building Department",
+          "url": "https://citydocs.newhavenct.gov/permits/2022-roof-123elm"
+        }
+      ]
+    },
+    {
+      "claim_id": "vote_record_environment_1993_2023",
+      "actor": "person",
+      "actor_name": "Candidate Name",
+      "domain": "Civic Systems",
+      "claim": "Voted in favor of environmental protection legislation in 87% of roll calls over 30 years.",
+      "evidence": [
+        {
+          "type": "dataset",
+          "url": "https://peoples-audit.org/evidence/vote_history_1993_2023.pdf",
+          "description": "Complete roll-call voting record on environmental bills, 1993–2023."
+        },
+        {
+          "type": "ledger",
+          "url": "https://peoples-audit.org/evidence/donation_history_1993_2023.pdf",
+          "description": "Donor history cross-referenced against industries affected by votes."
+        }
+      ],
+      "external_verification": [
+        {
+          "source": "congress.gov",
+          "url": "https://www.congress.gov/member/record/..."
+        }
+      ],
+      "integrity": {
+        "signed_by": "The People's Audit Project",
+        "manifest_url": "https://peoples-audit.org/site_manifest.json.asc"
+      }
+    }
+  ]
+}
