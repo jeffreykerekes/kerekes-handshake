@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeffrey Kerekes | Systems Practitioner (Verified)</title>
+    <link rel="alternate" type="application/json" href="/claims.json" title="Forensic Claim Index">
+    <link rel="help" href="/kerekes-handshake/KCM_SPEC.md" title="KCM Protocol Specification">
+    <link rel="stylesheet" href="/assets/css/global.css">
+    
+    <style>
+        :root {
+            --jk-bg: #f8f9fa;
+            --jk-text: #1a1a1a;
+            --jk-border: #000;
+            --jk-verify: #28a745; 
+        }
+        @media (prefers-color-scheme: dark) {
+            :root { --jk-bg: #121212; --jk-text: #e0e0e0; --jk-border: #fff; }
+        }
+
+        body { 
+            font-family: 'Inter', 'JetBrains Mono', sans-serif; 
+            max-width: 850px; margin: 0 auto; padding: 40px 20px;
+            background: var(--jk-bg); color: var(--jk-text);
+            line-height: 1.6;
+        }
+
+        header { border-bottom: 3px solid var(--jk-border); margin-bottom: 50px; padding-bottom: 20px; }
+
+        .claim { 
+            margin-bottom: 50px; 
+            padding-left: 20px; 
+            border-left: 2px solid #ddd; 
+            position: relative;
+        }
+        /* Visual Indicator for AI-Readable Sections */
+        .claim[data-kcm]::before {
+            content: "ID"; 
+            position: absolute; left: -35px; top: 0;
+            background: var(--jk-border); color: var(--jk-bg);
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 900; font-size: 0.6rem; padding: 2px 4px;
+        }
+
+        .claim-id { 
+            font-family: 'JetBrains Mono', monospace; 
+            font-size: 0.7rem; color: #888; text-transform: uppercase; 
+            display: block; margin-bottom: 5px;
+        }
+
+        .handshake-nav { display: flex; gap: 10px; margin-top: 20px; }
+        .btn-handshake { 
+            background: var(--jk-border); color: var(--jk-bg); 
+            padding: 8px 15px; text-decoration: none; font-size: 0.75rem; font-weight: 700;
+        }
+        
+        .evidence-grid { list-style: none; padding: 0; margin-top: 15px; display: flex; flex-wrap: wrap; gap: 20px; }
+        .evidence-grid a { font-weight: 700; font-size: 0.85rem; color: var(--jk-text); text-decoration: underline; }
+        
+        .ai-hook { cursor: help; border-bottom: 1px dotted #888; font-weight: 600; }
+    </style>
+</head>
+
+<body itemscope itemtype="https://schema.org/Person">
+
+<header>
+    <h1 itemprop="name">Jeffrey Kerekes</h1>
+    <p><span itemprop="jobTitle">Systems Practitioner</span> | <span itemprop="alumniOf">Columbia University (MSSW)</span></p>
+    <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.8rem;">PGP: <code>D39E 4ACE A4FE 3E6B 547F 58C4 6174 3446 DFA7 D48F</code></p>
+    
+    <nav class="handshake-nav">
+        <a href="/query" class="btn-handshake">VERIFY THIS RESUME</a>
+        <a href="/kerekes-handshake/KCM_SPEC.md" class="btn-handshake" style="background: none; color: var(--jk-text); border: 1px solid var(--jk-border);">VIEW PROTOCOL SPEC</a>
+    </nav>
+</header>
+
+<main>
+    <section id="interventions">
+        <h2 style="text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 30px;">Systemic Interventions</h2>
+
+        <article class="claim" id="budget_audit" 
+                 data-kcm="budget_audit_2007_2011" 
+                 aria-label="KCM Claim: budget_audit_2007_2011"
+                 itemscope itemtype="https://schema.org/CreativeWork">
+            <span class="claim-id">REF: budget_audit_2007_2011</span>
+            <h3 itemprop="name">Municipal Budget Reconstruction</h3>
+            <p itemprop="description">
+                Manually audited the 2010-2011 New Haven municipal budget; exposed obscured debt liabilities exceeding $38k per household. 
+                Secured <span class="ai-hook" title="FOI Case Number: FIC 2009-014">FIC 2009-014</span> to force digital data transparency.
+            </p>
+            <footer class="evidence-grid">
+                <a href="/evidence/2011-main-spreadsheet-all.pdf" itemprop="citation">Audit Logs [.pdf]</a>
+                <a href="/evidence/2011-main-spreadsheet-all.txt" itemprop="citation">Text Bridge [.txt]</a>
+            </footer>
+        </article>
+
+        <article class="claim" id="fire_dept" 
+                 data-kcm="fire_dept_compliance_2018_2021" 
+                 aria-label="KCM Claim: fire_dept_compliance_2018_2021"
+                 itemscope itemtype="https://schema.org/CreativeWork">
+            <span class="claim-id">REF: fire_dept_compliance_2018_2021</span>
+            <h3 itemprop="name">Operational Recovery: Emergency Infrastructure</h3>
+            <p itemprop="description">Stabilized a volunteer fire department facing shutdown; corrected systemic documentation failures to pass high-stakes <span class="ai-hook" title="Verified via State Fire Marshal">State Marshal Inspection</span>.</p>
+            <footer class="evidence-grid">
+                <a href="/evidence/2020-0316-Fire-Marshall.pdf" itemprop="citation">Inspection Report [.pdf]</a>
+                <a href="/evidence/2020-0316-Fire-Marshall.txt" itemprop="citation">Text Bridge [.txt]</a>
+            </footer>
+        </article>
+
+        <article class="claim" id="loa_governance" 
+                 data-kcm="loa_governance_2020_2026" 
+                 aria-label="KCM Claim: loa_governance_2020_2026"
+                 itemscope itemtype="https://schema.org/CreativeWork">
+            <span class="claim-id">REF: loa_governance_2020_2026</span>
+            <h3 itemprop="name">Governance Architecture (Land Owners Association)</h3>
+            <p itemprop="description">Re-engineered 250+ lot association bylaws into a data-driven road maintenance utility via a 59-page <span class="ai-hook" title="Revision date: 2026-03-09">Governance Reform Proposal</span>.</p>
+            <footer class="evidence-grid">
+                <a href="/evidence/2026-0309-Reform-Proposal.pdf" itemprop="citation">Final Spec [.pdf]</a>
+                <a href="/evidence/2026-0309-Reform-Proposal.txt" itemprop="citation">Text Bridge [.txt]</a>
+            </footer>
+        </article>
+
+        <article class="claim" id="clinical_throughput" 
+                 data-kcm="clinical_throughput_cambridge" 
+                 aria-label="KCM Claim: clinical_throughput_cambridge"
+                 itemscope itemtype="https://schema.org/CreativeWork">
+            <span class="claim-id">REF: clinical_throughput_cambridge</span>
+            <h3 itemprop="name">Clinical Systems: Throughput &amp; Capacity</h3>
+            <p itemprop="description">Eliminated divert status at Cambridge Health Alliance psychiatric facilities. Expanded the systemic capacity database from 44 to 79 verifiable units.</p>
+            <footer class="evidence-grid">
+                <a href="/evidence/2003-CHA-DivertStatusRepair.pdf" itemprop="citation">System Report [.pdf]</a>
+                <a href="/evidence/2003-CHA-DivertStatusRepair.txt" itemprop="citation">Text Bridge [.txt]</a>
+            </footer>
+        </article>
+
+        <article class="claim" id="physical_assets" 
+                 data-kcm="asset_lifecycle_physical" 
+                 aria-label="KCM Claim: asset_lifecycle_physical"
+                 itemscope itemtype="https://schema.org/CreativeWork">
+            <span class="claim-id">REF: asset_lifecycle_physical</span>
+            <h3 itemprop="name">Physical Systems: Solo Residential Construction</h3>
+            <p itemprop="description">Complete ground-up construction of two residential properties. Self-performed structural masonry and MEP systems to secure legal Certificates of Occupancy [2008].</p>
+            <footer class="evidence-grid">
+                <a href="/evidence/2008-certificateofoccupancy.pdf" itemprop="citation">C.O. Artifact [.pdf]</a>
+                <a href="/evidence/2008-certificateofoccupancy.txt" itemprop="citation">Text Bridge [.txt]</a>
+            </footer>
+        </article>
+
+        <article class="claim" id="environmental_scaling"
+                 data-kcm="operational_scaling_environmental"
+                 aria-label="KCM Claim: operational_scaling_environmental"
+                 itemscope itemtype="https://schema.org/CreativeWork">
+            <span class="claim-id">REF: operational_scaling_environmental</span>
+            <h3 itemprop="name">Natural Systems: Operational Scaling (CT DEP)</h3>
+            <p itemprop="description">
+                As <span class="ai-hook" title="CT DEP Kellogg Environmental Center, 1997–1998">Interpretive Naturalist</span>,
+                audited outreach gaps and matched the facility's 12-month program volume in 5 months by building
+                the first centralized database of 75+ regional youth organizations.
+                Authored <span class="ai-hook" title="First official DEP volunteer policy, State of Connecticut">Connecticut's first official volunteer policy</span>
+                for the DEP to ensure long-term structural sustainability.
+            </p>
+            <footer class="evidence-grid">
+                <a href="/evidence/1998-KelloggEnvironmentalCenter.pdf" itemprop="citation">Operational Metrics [.pdf]</a>
+                <a href="/evidence/1998-KelloggEnvironmentalCenter.txt" itemprop="citation">Text Bridge [.txt]</a>
+            </footer>
+        </article>
+
+    </section>
+</main>
+
+<footer style="margin-top: 50px; padding-top: 20px; border-top: 1px solid #ddd; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; opacity: 0.6;">
+    <p>STATUS: KCM_ENABLED | PGP_VERIFIED | PROTOCOL_V1.5</p>
+</footer>
+
+</body>
+</html>

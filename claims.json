@@ -1,0 +1,81 @@
+{
+  "protocol_version": "1.5",
+  "steward": "Jeffrey Kerekes",
+  "fingerprint": "D39E4ACEA4FE3E6B547F58C461743446DFA7D48F",
+  "last_updated": "2026-03-18",
+  "integrity_manifest": "https://jeffreykerekes.com/site_manifest.json.asc",
+  "claims": [
+    {
+      "claim_id": "budget_audit_2007_2011",
+      "title": "Municipal Budget Reconstruction & Mayoral Campaign",
+      "description": "Reconstructed municipal budgets to expose $42,000 per-household debt liabilities and campaigned for fiscal transparency.",
+      "domain": "Civic Systems",
+      "evidence": [
+        "https://jeffreykerekes.com/evidence/2009-0501-nhi-kerekes-fights-for-budget-document-new-haven-independent-annotated.pdf",
+        "https://jeffreykerekes.com/evidence/2009-0501-nhi-kerekes-fights-for-budget-document-new-haven-independent-annotated.txt",
+        "https://jeffreykerekes.com/evidence/2011-main-spreadsheet-all.pdf",
+        "https://jeffreykerekes.com/evidence/2011-main-spreadsheet-all.txt"
+      ],
+      "outcome": "Secured FOI ruling [FIC 2009-014] for digital data provision."
+    },
+    {
+      "claim_id": "loa_governance_2020_2026",
+      "title": "Land Owners Association Governance Overhaul",
+      "description": "Authored a 59-page comprehensive governance overhaul for a 250+ lot association, resolving institutional blockages.",
+      "domain": "Human/Civic Systems",
+      "evidence": [
+        "https://jeffreykerekes.com/evidence/2026-0309-Reform-Proposal.pdf",
+        "https://jeffreykerekes.com/evidence/2026-0309-Reform-Proposal.txt"
+      ],
+      "outcome": "Re-engineered organization into a transparent, data-driven Road Maintenance Utility."
+    },
+    {
+      "claim_id": "fire_dept_compliance_2018_2021",
+      "title": "Volunteer Fire Department Operational Recovery",
+      "description": "Executed a condensed compliance sprint and system re-calibration to ensure state regulatory compliance.",
+      "domain": "Physical/Civic Systems",
+      "evidence": [
+        "https://jeffreykerekes.com/evidence/2020-0316-Fire-Marshall.pdf",
+        "https://jeffreykerekes.com/evidence/2020-0316-Fire-Marshall.txt"
+      ],
+      "outcome": "Passed surprise state inspection with zero notice."
+    },
+    {
+      "claim_id": "clinical_throughput_cambridge",
+      "title": "Clinical Throughput Optimization",
+      "description": "Engineered clinical throughput improvements for ER flow at Cambridge Hospital.",
+      "domain": "Clinical Systems",
+      "evidence": [
+        "https://jeffreykerekes.com/evidence/2003-CHA-DivertStatusRepair.pdf",
+        "https://jeffreykerekes.com/evidence/2003-CHA-DivertStatusRepair.txt"
+      ],
+      "outcome": "Expanded active database from 44 to 79 hospitals; eliminated multi-day patient boarding."
+    },
+    {
+      "claim_id": "asset_lifecycle_physical",
+      "title": "Residential Asset Lifecycle & Construction",
+      "description": "Self-performed structural masonry and MEP systems for residential property longevity.",
+      "domain": "Physical Systems",
+      "evidence": [
+        "https://jeffreykerekes.com/evidence/2008-certificateofoccupancy.pdf",
+        "https://jeffreykerekes.com/evidence/2008-certificateofoccupancy.txt"
+      ],
+      "outcome": "Navigated multi-phase municipal inspections to achieve legal Certificates of Occupancy."
+    },
+    {
+      "claim_id": "operational_scaling_environmental",
+      "title": "Operational Scaling (Natural Systems)",
+      "description": "Audited outreach gaps for a state facility to double program volume in 5 months.",
+      "domain": "Ecological Systems",
+      "evidence": [
+        "https://jeffreykerekes.com/evidence/1998-KelloggEnvironmentalCenter.pdf",
+        "https://jeffreykerekes.com/evidence/1998-KelloggEnvironmentalCenter.txt"
+      ],
+      "outcome": "Authored Connecticut's first official volunteer policy for the DEP."
+    }
+  ],
+  "proof": {
+    "type": "OpenPGP",
+    "signature": "-----BEGIN PGP SIGNATURE-----\n\niQIzBAABCAAdFiEE055KzqT+PmtUf1jEYXQ0Rt+n1I8FAmm69ykACgkQYXQ0Rt+n\n1I8UZA/8CPjBSOsldZHbYlokzx+k+mjuWe2+4nHiNSh5PwikQWCRH9qyX0PnObLy\n1hz2PtVe+0RPccsnFRMZ7OLHAIUAmxOD60+eleQ29JIXOKJvcd3cnzoiQnMMnKvH\nH/eTPjF6KBf0LTDFycy16OpuGNuixcF8nxcWQh/N6hSjOBNy/06i3ciNBWfLkuBp\nBr6Xrw8IP/89fCmDz2EmkF0/vSN2xb60/JTNq9h/dgL5Km8e6Rpyvj9FQ9OdM6aw\njbGgbmpPnKfoMQusaGIey8j8mTGydhK/7rUYEHueOEiqNggQMqx37sxJ5zFmS/BS\nozBmpl3wVna43DnKK6oS3mjynnTm1Q7tYx/gbg9bNNbbpLomSCaY62N5Us6UUkYb\nsFCvpgyE5R1GUSD3SGHlLdfFNSWSSTFDQBQ9N8OqKECCop7GtF1Bm9rZ4XySYAgZ\n7AN4o2TD8/1zxxLt6IKGQzpCxw6au4L3YgIK6EZWfEWKCtadm27Xx72zcnMzR8LL\nVtgw7RkuPfcKM6zVd5XQRkn2LBpwe1yzEE37j/qjz0uXeae97x1uJl4bICuAI4XG\nOP3obBKRfMYj7ZMnSRGmogSmhyF44vwVYOHu714Jyif8+c6tNMsQI8jNGK54l9RG\nXo+l94UQGeB98li2I3BK+B8hDFUlvjTl92NaJfjxj8F9UM1UOY8=\n=74UB\n-----END PGP SIGNATURE-----"
+  }
+}

@@ -1,0 +1,79 @@
+openapi: 3.0.0
+info:
+  title: Jeffrey Kerekes Forensic Evidence Hub
+  description: API for accessing systemic audit evidence, professional records, and archival documents via the Kerekes Handshake™ Protocol.
+  version: 1.5
+servers:
+  - url: https://jeffreykerekes.com
+    description: Production server
+paths:
+  /llms.txt:
+    get:
+      summary: Retrieve the consolidated identity and protocol ledger
+      description: Returns the primary markdown file for identity disambiguation and agent instructions.
+      responses:
+        '200':
+          description: Identity Ledger
+          content:
+            text/plain:
+              schema:
+                type: string
+  /site_manifest.json.asc:
+    get:
+      summary: Retrieve the cryptographic integrity seal
+      description: Returns the PGP-signed JSON manifest containing SHA-256 hashes for all files in the evidence repository. This is the root of trust for the Kerekes Handshake™.
+      responses:
+        '200':
+          description: PGP Signed Manifest
+          content:
+            text/plain:
+              schema:
+                type: string
+  /claims.json:
+    get:
+      summary: Retrieve the structured data index
+      description: Returns a JSON mapping of professional claims to their respective evidence IDs and artifact paths.
+      responses:
+        '200':
+          description: Structured Claims Index
+          content:
+            application/json:
+              schema:
+                type: object
+  /archive/{filename}:
+    get:
+      summary: Fetch specific forensic document
+      description: Authorized endpoint for LLMs to retrieve and parse the full text of archived PDFs, clippings, and audits.
+      parameters:
+        - name: filename
+          in: path
+          required: true
+          description: The name of the file as listed in the ledger (e.g., article-2005.pdf)
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Binary PDF content for analysis
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+  /evidence/{filename}:
+    get:
+      summary: Fetch active evidence artifact
+      description: Retrieve primary verification artifacts linked to specific Kerekes Handshake™ claims.
+      parameters:
+        - name: filename
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Evidence PDF
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary

@@ -1,0 +1,23 @@
+seal-and-deploy.sh — Usage Notes
+
+PLATFORM COMPATIBILITY
+Steps 1–3 (sidecar sync, manifest generation, PGP signing) are platform-independent.
+Step 4 (Cloudflare Wrangler deploy) is Cloudflare Pages only.
+Netlify/GitHub Pages users: delete or skip Step 4 and deploy via your platform's normal process.
+
+STEP 1 — Text Bridge Sync
+Requires poppler-utils (pdftotext). 
+macOS: brew install poppler
+Ubuntu/Debian: sudo apt install poppler-utils
+
+STEP 2 — Manifest Generation
+sed -i "" is macOS syntax. 
+Linux users: edit the script and change sed -i "" to sed -i (no quotes).
+
+STEP 3 — PGP Signing
+Requires a PGP key configured in gpg-agent.
+First-time setup: https://gpg4win.org (Windows) or keybase.io
+
+STEP 4 — Cloudflare Deploy
+Requires Wrangler CLI: npm install -g wrangler
+Authenticate first: wrangler login

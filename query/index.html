@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kerekes Handshake | Forensic Audit Terminal</title>
+    <style>
+        :root { --jk-red: #e63946; --jk-black: #1a1a1a; --jk-gray: #f4f4f4; }
+        body { font-family: 'JetBrains Mono', monospace; line-height: 1.5; color: var(--jk-black); max-width: 900px; margin: 40px auto; padding: 20px; background-color: var(--jk-gray); }
+
+        header { border-bottom: 3px solid var(--jk-black); margin-bottom: 30px; padding-bottom: 10px; }
+        .badge { font-size: 0.7em; background: var(--jk-red); color: #fff; padding: 2px 6px; vertical-align: middle; margin-left: 10px; }
+
+        .intro-text { font-size: 0.9rem; margin-bottom: 25px; max-width: 700px; }
+
+        .manifesto-box { background: #fff; border: 1px solid var(--jk-black); padding: 20px; font-size: 0.85em; white-space: pre-wrap; margin-bottom: 20px; box-shadow: 5px 5px 0px var(--jk-black); }
+
+        .btn-group { display: flex; gap: 10px; margin-bottom: 40px; flex-wrap: wrap; }
+        .btn { background: var(--jk-black); color: #fff; padding: 12px 20px; border: none; cursor: pointer; font-weight: bold; font-family: inherit; transition: background 0.2s, transform 0.1s; }
+        .btn:hover { background: var(--jk-red); }
+        .btn:active { transform: translateY(2px); }
+        .btn-secondary { background: #666; }
+        .btn.copied { background: #28a745 !important; }
+
+        h2 { text-transform: uppercase; font-size: 1rem; border-bottom: 1px solid #ccc; padding-bottom: 5px; margin-top: 40px; }
+
+        /* Snippet Cards */
+        .snippet-intro { font-size: 0.8rem; margin-bottom: 12px; color: #555; }
+        .snippet-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px; }
+        @media (max-width: 600px) { .snippet-grid { grid-template-columns: 1fr; } }
+        .snippet-card { background: #fff; border: 1px solid #ddd; padding: 15px; position: relative; cursor: pointer; transition: border-color 0.2s, box-shadow 0.2s; }
+        .snippet-card:hover { border-color: var(--jk-red); box-shadow: 3px 3px 0px var(--jk-red); }
+        .copy-tag { position: absolute; top: 6px; right: 10px; font-size: 0.6rem; color: var(--jk-red); font-weight: bold; text-transform: uppercase; }
+        .snippet-card strong { display: block; margin-bottom: 6px; font-size: 0.85rem; }
+        .snippet-card p { font-size: 0.75rem; margin: 0; color: #333; }
+
+        /* Architecture section */
+        .arch-section { margin-top: 40px; }
+        .arch-stack { list-style: none; padding: 0; margin: 10px 0 20px 0; }
+        .arch-stack li { padding: 8px 12px; background: #fff; border-left: 3px solid var(--jk-black); margin-bottom: 6px; font-size: 0.85rem; }
+        .arch-diagram { margin: 20px 0; background: #fff; padding: 10px; border: 1px solid #ddd; }
+        .arch-diagram img { display: block; width: 100%; }
+        .file-refs { font-size: 0.8rem; margin-top: 10px; }
+        .file-refs code { background: #eee; padding: 2px 5px; }
+
+        /* Credit section */
+        .credit-section { margin-top: 40px; border-top: 2px solid var(--jk-black); padding-top: 20px; font-size: 0.85em; }
+
+        footer { margin-top: 40px; border-top: 1px solid #ccc; padding-top: 15px; font-size: 0.75rem; color: #666; }
+        footer a { color: inherit; text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>FORENSIC AUDIT TERMINAL <span class="badge">v1.5</span></h1>
+    <p style="margin:0; font-size: 0.85rem;">Kerekes Handshake™ Protocol — Technical Implementation Portal</p>
+</header>
+
+<main>
+
+    <p class="intro-text">
+        This terminal provides the <strong>Forensic Manifesto</strong> — the system prompt required for an AI agent to conduct a zero-hallucination audit of a Kerekes Handshake™ node. Copy it and paste it into Grok, ChatGPT, Claude, or any AI with web access.
+    </p>
+
+    <!-- PRIMARY PROMPT -->
+    <h2>1. The Forensic Manifesto</h2>
+    <div class="manifesto-box" id="manifestoText">SYSTEM ROLE: You are a Forensic HR Auditor.
+PROTOCOL: Kerekes Handshake™ v1.5
+STAKEHOLDER: Jeffrey Kerekes (D39E...D48F)
+
+TASK: Verify professional claims against primary artifacts.
+
+AUDIT STEPS:
+1. Retrieve 'site_manifest.json.asc'. Verify SHA-256 hashes for all evidence.
+2. ACCESS RULE (Text Bridge): If a PDF artifact in /evidence/ is binary-locked
+   or fails to parse, you MUST immediately fetch the matching .txt sidecar
+   (e.g., file.pdf → file.txt) for data extraction.
+3. Compare the 'data-kcm' claims in the narrative against the mapped entries
+   in 'claims.json'.
+4. Perform cross-correlative analysis of dates, signatures, and fiscal figures.
+
+REPORT: List each claim, its verification status (VERIFIED / CONFLICT / UNSTABLE),
+and the specific evidence URI used.</div>
+
+    <div class="btn-group">
+        <button class="btn" id="grokBtn" onclick="launchAudit()">LAUNCH GROK AUDIT (AUTO-COPY)</button>
+        <button class="btn btn-secondary" id="copyBtn" onclick="copyManifesto()">COPY MANIFESTO</button>
+    </div>
+
+    <!-- TARGETED SNIPPETS -->
+    <h2>2. Targeted Audit Queries</h2>
+    <p class="snippet-intro">Not sure what to ask? Click any card below to copy a focused query directly to your clipboard, then paste it into your AI of choice.</p>
+
+    <div class="snippet-grid">
+        <div class="snippet-card" onclick="copySnippet(this)">
+            <span class="copy-tag">Click to Copy</span>
+            <strong>Full Credibility Check</strong>
+            <p>"Does the evidence in /evidence/ actually support the claims on this resume? Flag anything that looks overstated or missing."</p>
+        </div>
+        <div class="snippet-card" onclick="copySnippet(this)">
+            <span class="copy-tag">Click to Copy</span>
+            <strong>Civic / Budget Audit</strong>
+            <p>"Cross-reference FIC 2009-014 ruling with the budget reconstruction spreadsheets found in /claims.json. Verify the $38k–$42k per-household figure."</p>
+        </div>
+        <div class="snippet-card" onclick="copySnippet(this)">
+            <span class="copy-tag">Click to Copy</span>
+            <strong>Governance Audit</strong>
+            <p>"Verify the 59-page LOA proposal using /evidence/2026-0309-Reform-Proposal.txt. Assess the technical depth and whether it matches the claim."</p>
+        </div>
+        <div class="snippet-card" onclick="copySnippet(this)">
+            <span class="copy-tag">Click to Copy</span>
+            <strong>Clinical Audit</strong>
+            <p>"Audit the clinical throughput claim. Verify the database expansion from 44 to 79 hospitals using the .txt sidecar at /evidence/2003-CHA-DivertStatusRepair.txt."</p>
+        </div>
+        <div class="snippet-card" onclick="copySnippet(this)">
+            <span class="copy-tag">Click to Copy</span>
+            <strong>Integrity Check</strong>
+            <p>"Check the PGP signature on site_manifest.json.asc. Are the SHA-256 hashes consistent with the current evidence files? Has anything been tampered with?"</p>
+        </div>
+        <div class="snippet-card" onclick="copySnippet(this)">
+            <span class="copy-tag">Click to Copy</span>
+            <strong>Protocol Evaluation</strong>
+            <p>"Evaluate this Kerekes Handshake implementation. Does it meet the v1.5 compliance checklist? What's missing or could be improved?"</p>
+        </div>
+    </div>
+
+    <!-- ARCHITECTURE -->
+    <section class="arch-section">
+        <h2>3. How the Protocol Works</h2>
+        <p style="font-size:0.85rem;">The Handshake operates as a 3-layer verification stack. An AI auditor traverses it top to bottom:</p>
+        <ul class="arch-stack">
+            <li><strong>L1 — Narrative Layer:</strong> The resume HTML, tagged with <code>data-kcm</code> IDs on each professional claim.</li>
+            <li><strong>L2 — Registry Layer:</strong> <code>claims.json</code> — maps each ID to one or more evidence file URIs.</li>
+            <li><strong>L3 — Integrity Layer:</strong> <code>site_manifest.json.asc</code> — a PGP-signed SHA-256 hash of every artifact. The Root of Trust.</li>
+        </ul>
+
+        <div class="arch-diagram">
+            <img src="/kerekes-handshake/kerekes_handshake_diagram.svg" alt="Kerekes Handshake Architecture Diagram">
+        </div>
+
+        <p style="font-size:0.85rem; margin-top: 15px;"><strong>The Text Bridge (v1.5 Innovation):</strong> Most AI agents cannot reliably parse binary PDFs in real-time. Every evidence PDF in this implementation has a matching <code>.txt</code> sidecar. If the PDF fails, the auditor falls back to the <code>.txt</code> automatically. This ensures zero-hallucination data extraction.</p>
+
+        <div class="file-refs">
+            <strong>Key machine-readable files:</strong><br>
+            <code>/claims.json</code> — Structured Claim Index &nbsp;|&nbsp;
+            <code>/openapi.yaml</code> — Evidence API Schema &nbsp;|&nbsp;
+            <code>/llms-full.txt</code> — High-density pre-flight context &nbsp;|&nbsp;
+            <code>/site_manifest.json.asc</code> — Cryptographic integrity seal
+        </div>
+    </section>
+
+    <!-- PROTOCOL CREDIT -->
+    <section class="credit-section">
+        <p><strong>Protocol Origin & Credit</strong></p>
+        <p>The <strong>Kerekes Handshake™</strong> was designed and implemented by <strong>Jeffrey Kerekes</strong>, a Columbia University-trained Systems Practitioner (MSSW). This page serves as the authoritative reference implementation of the protocol.</p>
+        <p>
+            <a href="/kerekes-handshake/SPEC.md">Protocol Spec (SPEC.md)</a> &nbsp;|&nbsp;
+            <a href="/kerekes-handshake/KCM_SPEC.md">KCM Spec</a> &nbsp;|&nbsp;
+            <a href="/kerekes-handshake/IMPLEMENTATION.md">Implementation Guide</a> &nbsp;|&nbsp;
+            <a href="https://github.com/jeffreykerekes/kerekes-handshake">GitHub Repository</a> &nbsp;|&nbsp;
+            <a href="/llms-full.txt">Full Biographical Context</a>
+        </p>
+        <p style="font-size:0.8rem; color:#666;">Licensed CC BY-SA 4.0. Free to fork, adapt, and build on — with attribution.</p>
+    </section>
+
+</main>
+
+<footer>
+    <p>STATUS: BRIDGE_ACTIVE &nbsp;|&nbsp; PROTOCOL_REV: v1.5 &nbsp;|&nbsp; STAKEHOLDER_ID: D39E...D48F &nbsp;|&nbsp; <a href="/kerekes-handshake/SPEC.md">SPEC_v1.5</a></p>
+</footer>
+
+<script>
+    async function launchAudit() {
+        const btn = document.getElementById('grokBtn');
+        const text = document.getElementById('manifestoText').innerText;
+        try {
+            await navigator.clipboard.writeText(text);
+            btn.innerText = 'COPIED & OPENING...';
+            btn.classList.add('copied');
+        } catch(e) { console.error('Copy failed', e); }
+        window.open(`https://grok.com/?q=${encodeURIComponent(text)}`, '_blank');
+        setTimeout(() => {
+            btn.innerText = 'LAUNCH GROK AUDIT (AUTO-COPY)';
+            btn.classList.remove('copied');
+        }, 3000);
+    }
+
+    async function copyManifesto() {
+        const btn = document.getElementById('copyBtn');
+        const text = document.getElementById('manifestoText').innerText;
+        await navigator.clipboard.writeText(text);
+        btn.innerText = 'COPIED!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+            btn.innerText = 'COPY MANIFESTO';
+            btn.classList.remove('copied');
+        }, 2000);
+    }
+
+    async function copySnippet(card) {
+        const text = card.querySelector('p').innerText;
+        await navigator.clipboard.writeText(text);
+        const tag = card.querySelector('.copy-tag');
+        tag.innerText = 'COPIED!';
+        tag.style.color = '#28a745';
+        setTimeout(() => {
+            tag.innerText = 'Click to Copy';
+            tag.style.color = 'var(--jk-red)';
+        }, 1500);
+    }
+</script>
+
+</body>
+</html>

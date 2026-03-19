@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Kerekes Handshake Claim Schema",
+  "description": "Defines the structure for forensic professional claims and evidence mapping.",
+  "type": "object",
+  "required": ["claim_id", "title", "domain", "evidence", "outcome"],
+  "properties": {
+    "claim_id": {
+      "type": "string",
+      "description": "Unique slug for the claim (e.g., budget_audit_2011)."
+    },
+    "title": {
+      "type": "string",
+      "description": "High-level identifier of the intervention."
+    },
+    "domain": {
+      "type": "string",
+      "description": "The specific system category (Human, Civic, Physical, Ecological)."
+    },
+    "description": {
+      "type": "string",
+      "description": "Narrative summary of the diagnosis and intervention, including citation markers."
+    },
+    "evidence": {
+      "type": "array",
+      "description": "List of absolute URLs to primary source artifacts.",
+      "items": {
+        "type": "string",
+        "format": "uri"
+      },
+      "minItems": 1
+    },
+    "outcome": {
+      "type": "string",
+      "description": "The verifiable forensic result or systemic impact of the intervention."
+    }
+  }
+}
