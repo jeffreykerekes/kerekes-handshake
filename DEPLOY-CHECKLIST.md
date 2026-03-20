@@ -1,7 +1,7 @@
-# Kerekes Handshake™ — Deploy Checklist v1.5
+# Kerekes Handshake — Deploy Checklist
 **Estimated Time: 5–10 minutes**
 
-Follow these steps to deploy a "Bullshit Buster" compliant forensic resume.
+Follow these steps to deploy a compliant evidence-anchored resume or claims vault.
 
 ## 1. Prepare Your Evidence (2 minutes)
 - [ ] **Collect:** Place your primary evidence PDFs in the `/evidence/` folder.
@@ -22,7 +22,7 @@ Follow these steps to deploy a "Bullshit Buster" compliant forensic resume.
 
 ## 4. Markup Your Resume (2 minutes)
 - [ ] **Tagging:** Open your resume HTML and wrap your claims in KCM tags:
-  `<span data-kcm="your_claim_id">The text of your claim here</span>`
+  `<article data-kcm="your_claim_id">The text of your claim here</article>`
 - [ ] **Portal:** Ensure your "Audit this Resume" link points to your `/query/` or `/handshake/` portal.
 
 ## 5. Deployment & Permissions
@@ -31,4 +31,4 @@ Follow these steps to deploy a "Bullshit Buster" compliant forensic resume.
   *"Audit the claims at [your-domain] and verify them against the PGP-signed manifest."*
 
 ---
-**Status:** If the AI can read your .txt sidecars and confirm the hashes match your signed manifest, you are **v1.5 Compliant.**
+**Status:** If the AI can read your .txt sidecars and confirm the hashes match your signed manifest, you are **v1.6 Compliant.**

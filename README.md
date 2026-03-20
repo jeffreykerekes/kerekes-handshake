@@ -1,5 +1,5 @@
-# Kerekes Handshake™ v1.6
-**A universal protocol for anchoring any claim to primary evidence — auditable by humans and AI.**
+# Kerekes Handshake v1.6
+**A self-certifying evidence framework for claims that no third party will ever certify.**
 
 > *Everyone is racing to put property deeds on the blockchain — but who is putting the new roof receipt in claims.json?*
 
@@ -7,7 +7,7 @@
 
 ## The Honest Position First
 
-**Self-certification is self-lying.** This protocol does not prevent fraud. A motivated actor can fabricate evidence and sign it with PGP. The signature proves who vouched for the file — not that the file is authentic.
+**Self-certification is self-lying.** This framework does not prevent fraud. A motivated actor can fabricate evidence and sign it with PGP. The signature proves who vouched for the file — not that the file is authentic.
 
 Humans have been lying in professional contexts forever. The apostille system — the international chain used to legalize documents across borders — took centuries to develop precisely because people always lied and always will. The Kerekes Handshake does not replicate that chain. What it does is **raise the cost and detectability of lying** by anchoring claims to inspectable artifacts and linking them to independent public records where they exist.
 
@@ -21,21 +21,21 @@ The goal is not a solved problem. The goal is a better signal-to-noise ratio tha
 
 ## The Problem
 
-AI has made everyone a "keyword genius." When every resume, product description, and political bio is perfectly optimized, the signal-to-noise ratio drops to zero. A "Perfect 10/10" resume can be generated for anyone in seconds.
+AI has made everyone a "keyword genius." When every resume, product description, and political bio is perfectly optimized, the signal-to-noise ratio drops to zero. A perfect resume can be generated for anyone in seconds.
 
-**The Handshake ignores keywords. It audits provenance.**
+**This framework ignores keywords. It audits provenance.**
 
 ---
 
 ## What It Is
 
-A lightweight, open protocol that anchors any claim to a forensic vault of primary artifacts — making it auditable by humans and AI agents.
+A lightweight, open framework that anchors any claim to a primary artifact vault — making it auditable by humans and AI agents.
 
 ```
 Actor → Claim → Artifact Vault → Verification
 ```
 
-The same protocol that verifies a resume also verifies a plumber's license, a property's condition history, a nonprofit's financials, or a politician's 30-year voting record.
+Started as a resume tool. Generalized to any domain where a claim needs evidence: trades licensing, property condition history, nonprofit financials, political voting records. The three-layer structure works for all of them.
 
 ---
 
@@ -47,10 +47,10 @@ The same protocol that verifies a resume also verifies a plumber's license, a pr
 
 ---
 
-## v1.6: Two Innovations
+## v1.6 Additions
 
 ### The Vault Resume
-Stop explaining your work in prose. Put the wins on a dense half-page. Let AI pull the vault.
+A dense half-page for human recruiters. An infinite evidence vault for AI agents. Neither compromises the other.
 
 ```
 HUMAN LAYER (half-page):   Dense stubs → six-second scan → "worth a query"
@@ -59,7 +59,7 @@ AI LAYER (infinite vault):  Fetch evidence → verify claims → return verdict
 ```
 
 ### Verification Strength
-Every claim now declares — and AI independently assesses — how verifiable it actually is on a 1–10 scale:
+Every claim declares — and AI independently assesses — how verifiable it actually is on a 1–10 scale:
 
 | Score | Type | Example |
 |---|---|---|
@@ -89,10 +89,32 @@ Full detail: [USE_CASES.md](./USE_CASES.md)
 
 ---
 
+## Known AI Limitations
+
+AI verification is an ongoing cat-and-mouse problem. These are the known failure modes as of March 2026:
+
+**Token conservation:** AI agents with limited context windows will sometimes read only the visible text of a page rather than parsing raw HTML attributes. The `data-kcm` attributes in KCM markup are invisible to a text-only parser. Mitigation: every compliant page includes a `<!-- KCM-CLAIMS: id1 | id2 | ... -->` HTML comment near the top of `<body>`. This is readable as plain text even when attribute parsing fails.
+
+**PDF binary blindness:** Most AI crawlers fail to reliably parse binary PDF streams in real-time, producing hallucinated or missing content. Mitigation: the Text Bridge — every PDF has a matching `.txt` sidecar with identical filename. AI agents fall back to the sidecar automatically.
+
+**CORS and crawl limits:** Not all AI agents respect CORS headers or follow every evidence link. Enterprise AI deployments with dedicated browsing budgets perform significantly better than consumer-tier free options. Verification quality scales with the AI agent's token and crawl budget.
+
+**The standard will keep evolving.** New AI capabilities will surface new gaps; new mitigations will follow. This framework will need to track those changes. Version history is in [CHANGELOG.md](./CHANGELOG.md).
+
+---
+
+## One-Click Validator
+
+A browser-based integrity checker is available at [/kerekes-handshake/validator.html](./validator.html).
+
+It fetches the `site_manifest.json.asc` for any compliant domain, re-computes SHA-256 hashes of listed files, and returns green/red status per file — no server required, no special tools. This turns "trust the process" into "watch it work."
+
+---
+
 ## Two Ways to Implement
 
 ### Path A — Build It Yourself
-- [SPEC.md](./SPEC.md) — Protocol overview, honest limits, and Vault Resume standard
+- [SPEC.md](./SPEC.md) — Framework overview, honest limits, Vault Resume standard
 - [IMPLEMENTATION.md](./IMPLEMENTATION.md) — Full technical reference
 - [USE_CASES.md](./USE_CASES.md) — Domain applications with honest verification strength assessments
 - [DEPLOY-CHECKLIST.md](./DEPLOY-CHECKLIST.md) — 5-minute deployment
@@ -104,12 +126,35 @@ No coding required. Upload your resume (or any evidence set) and paste one promp
 
 ---
 
+## Sample Audit Reports
+
+Real audit runs on the reference implementation are in [/reference-implementation/audit-reports/](./reference-implementation/audit-reports/). These include both clean verifications and documented failures — token conservation issues, partial parses, and the KCM-CLAIMS comment workaround in action.
+
+| Report | Verdict | Notes |
+|---|---|---|
+| [grok_report-1.pdf](./reference-implementation/audit-reports/grok_report-1.pdf) | Pre-deployment | KCM markup absent — shows what failure looks like |
+| [grok_report-2.pdf](./reference-implementation/audit-reports/grok_report-2.pdf) | Partial | Manifest not discoverable; claims verified via archive index only |
+| [grok_report-3.pdf](./reference-implementation/audit-reports/grok_report-3.pdf) | Supported | Full audit — integrity confirmed, Recruiter Note positive |
+| [grok_report-4.pdf](./reference-implementation/audit-reports/grok_report-4.pdf) | Supported | KCM REF tags resolved by claim_id, claims.json mapped |
+| [Validator run 1](./reference-implementation/audit-reports/Kerekes%20Handshake%20—%20Vault%20Integrity%20Validator-01.pdf) | 402/404 | Two expected index.html FAILs (now excluded by design) |
+| [Validator run 2](./reference-implementation/audit-reports/Kerekes%20Handshake%20—%20Vault%20Integrity%20Validator-02.pdf) | 402/402 | All files verified after index.html exclusion fix |
+
+---
+
+## Future Direction: W3C Verifiable Credentials
+
+The W3C Verifiable Credentials standard and DID (Decentralized Identifier) infrastructure will eventually provide institutional verification for many credential types. The SHA-256 hashes in the Kerekes Handshake manifest are already in a compatible format for VC export. A future v2.0 could add optional `did` and `vc_export` fields to `claims.json`, allowing any Handshake vault to be promoted to a full VC when an issuer relationship exists. The two approaches are complementary: this framework handles the self-sovereign, non-credentialed case that institutional VC infrastructure will not touch.
+
+---
+
 ## AI Compatibility (March 2026)
 
 | Agent | Status | Notes |
 |---|---|---|
-| **Grok (X.ai)** | ✓ Fully Compatible | Best-in-class for live forensic crawls |
-| **ChatGPT / Claude / Perplexity** | ✓ Compatible | Use Text Bridge `.txt` files; enable CORS |
+| **Grok (X.ai)** | ✓ Tested | Best crawl performance; handles Text Bridge natively |
+| **ChatGPT / Claude / Perplexity** | ✓ Compatible | Text Bridge recommended; results vary by token budget |
+| **Consumer free tiers** | ⚠ Variable | Token limits cause partial parsing; use KCM-CLAIMS comment mitigation |
+| **Enterprise tiers** | ✓ Better | Larger context windows reduce token-conservation failures |
 
 ---
 
@@ -128,4 +173,4 @@ Free to use, remix, and build on. Credit Jeffrey Kerekes. Keep derivatives open.
 ---
 
 **Created by Jeffrey Kerekes — Systems Practitioner**
-[Live Demo](https://jeffreykerekes.com) | [Protocol Spec](./SPEC.md) | [Whitepaper](./Kerekes-Handshake-Whitepaper-Spec-V1.6.pdf) | [Use Cases](./USE_CASES.md)
+[Live Demo](https://jeffreykerekes.com) | [Framework Spec](./SPEC.md) | [Whitepaper](./Kerekes-Handshake-Whitepaper-Spec.pdf) | [Use Cases](./USE_CASES.md) | [Validator](./validator.html)

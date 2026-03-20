@@ -225,6 +225,12 @@ The `external_verification` field links to third-party public records. When that
 
 ---
 
+## Non-Resume Reference Implementations
+
+The resume use case is the live reference implementation at [jeffreykerekes.com](https://jeffreykerekes.com). The multi-domain use cases described above — trades, real estate, nonprofits, civic accountability — follow the same Actor → Claim → Artifact Vault → Verification circuit. The technical implementation is identical; only the evidence types and domain change.
+
+Reference implementations beyond resumes are forthcoming. If you build one, community contributions are welcome via [GitHub](https://github.com/jeffreykerekes/kerekes-handshake).
+
 ## The Consulting Opportunity
 
 The protocol is open and free. The **implementation** is a professional service.

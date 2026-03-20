@@ -1,7 +1,7 @@
 <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
   <rect width="800" height="500" fill="#f8f9fa" />
   
-  <text x="400" y="40" font-family="JetBrains Mono, monospace" font-size="20" font-weight="bold" text-anchor="middle">KEREKES HANDSHAKE™ PROTOCOL v1.5</text>
+  <text x="400" y="40" font-family="JetBrains Mono, monospace" font-size="20" font-weight="bold" text-anchor="middle">KEREKES HANDSHAKE — EVIDENCE ANCHORING FRAMEWORK</text>
   <text x="400" y="65" font-family="JetBrains Mono, monospace" font-size="12" fill="#666" text-anchor="middle">Identity Binding &amp; Forensic Evidence Circuit</text>
 
   <rect x="50" y="100" width="200" height="120" fill="#fff" stroke="#000" stroke-width="2"/>

@@ -54,7 +54,12 @@
             background: var(--jk-border); color: var(--jk-bg); 
             padding: 8px 15px; text-decoration: none; font-size: 0.75rem; font-weight: 700;
         }
-        
+        .btn-outline {
+    		background: none; color: var(--jk-text);
+    		border: 1px solid var(--jk-border);
+    		padding: 8px 15px; text-decoration: none;
+    		font-size: 0.75rem; font-weight: 700;
+		}
         .evidence-grid { list-style: none; padding: 0; margin-top: 15px; display: flex; flex-wrap: wrap; gap: 20px; }
         .evidence-grid a { font-weight: 700; font-size: 0.85rem; color: var(--jk-text); text-decoration: underline; }
         
@@ -63,7 +68,7 @@
 </head>
 
 <body itemscope itemtype="https://schema.org/Person">
-
+<!-- KCM-CLAIMS: budget_audit_2007_2011 | mayoral_campaign_2011 | fire_dept_compliance_2018_2021 | loa_governance_2020_2026 | clinical_throughput_cambridge | clinical_lifesave_2002 | asset_lifecycle_physical | operational_scaling_environmental | podcasting_pioneer_2005 -->
 <header>
     <h1 itemprop="name">Jeffrey Kerekes</h1>
     <p><span itemprop="jobTitle">Systems Practitioner</span> | <span itemprop="alumniOf">Columbia University (MSSW)</span></p>
@@ -72,6 +77,7 @@
     <nav class="handshake-nav">
         <a href="/query" class="btn-handshake">VERIFY THIS RESUME</a>
         <a href="/kerekes-handshake/KCM_SPEC.md" class="btn-handshake" style="background: none; color: var(--jk-text); border: 1px solid var(--jk-border);">VIEW PROTOCOL SPEC</a>
+ 		<a href="/kerekes-handshake/validator" class="btn-outline">VERIFY VAULT INTEGRITY</a>   
     </nav>
 </header>
 
@@ -166,11 +172,71 @@
             </footer>
         </article>
 
+
+        <article class="claim" id="mayoral_campaign"
+                 data-kcm="mayoral_campaign_2011"
+                 aria-label="KCM Claim: mayoral_campaign_2011"
+                 itemscope itemtype="https://schema.org/CreativeWork">
+            <span class="claim-id">REF: mayoral_campaign_2011</span>
+            <h3 itemprop="name">Civic Systems: Independent Mayoral Campaign</h3>
+            <p itemprop="description">
+                After two years attempting to recruit a challenger to an
+                <span class="ai-hook" title="18-year incumbent, strong-mayor system, New Haven CT">18-year incumbent</span>
+                and exhausting all other influence channels, ran as independent candidate on a 300-point fiscal reform platform.
+                <span class="ai-hook" title="Final vote: 6,550 vs 7,991 — 1,441-vote margin">6,550 vs. 7,991 votes</span>
+                despite a <span class="ai-hook" title="Campaign spend: $53k vs. $760k">14:1 spending disadvantage</span>.
+                WSJ and NYT covered the race nationally.
+            </p>
+            <footer class="evidence-grid">
+                <a href="/archive/2011-0614-kerekes-campaign-packet.pdf" itemprop="citation">Campaign Packet [.pdf]</a>
+                <a href="/archive/2011-0914-nhr-john-destefano-wins-new-haven-democratic-mayoral-primary-after-tough-fight.pdf" itemprop="citation">Election Result [.pdf]</a>
+                <a href="/archive/2026-0209-search-connecticut-post.txt" itemprop="citation">CT Post Archive [.txt]</a>
+            </footer>
+        </article>
+
+        <article class="claim" id="clinical_lifesave"
+                 data-kcm="clinical_lifesave_2002"
+                 aria-label="KCM Claim: clinical_lifesave_2002"
+                 itemscope itemtype="https://schema.org/CreativeWork">
+            <span class="claim-id">REF: clinical_lifesave_2002</span>
+            <h3 itemprop="name">Human Systems: Life-Saving Clinical Intervention</h3>
+            <p itemprop="description">
+                In psych ER, overrode clinical consensus —
+                <span class="ai-hook" title="Patient flagged for discharge; recognized acute alcohol withdrawal instead">recognized acute alcohol withdrawal</span>
+                in patient the team planned to discharge based on presentation and demands to leave.
+                Contacted shelters, confirmed no psychiatric history, secured medical admission.
+                <span class="ai-hook" title="Documented in internal ER correspondence">Probable fatal outcome prevented.</span>
+            </p>
+            <footer class="evidence-grid">
+                <a href="/evidence/2002-clinical-intervention.pdf" itemprop="citation">Clinical Record [.pdf]</a>
+                <a href="/evidence/2002-clinical-intervention.txt" itemprop="citation">Text Bridge [.txt]</a>
+                <a href="/archive/2002-0222-life-saving.pdf" itemprop="citation">ER Documentation [.pdf]</a>
+            </footer>
+        </article>
+
+        <article class="claim" id="podcasting_pioneer"
+                 data-kcm="podcasting_pioneer_2005"
+                 aria-label="KCM Claim: podcasting_pioneer_2005"
+                 itemscope itemtype="https://schema.org/CreativeWork">
+            <span class="claim-id">REF: podcasting_pioneer_2005</span>
+            <h3 itemprop="name">Media Systems: Podcasting Pioneer</h3>
+            <p itemprop="description">
+                Profiled by <span class="ai-hook" title="LA Times, Hartford Courant, Miami Herald and 7+ others, March–April 2005">10+ national outlets</span>
+                as an early adopter of podcasting before mainstream adoption —
+                kitchen table studio, decentralized distribution system before the word was a trend, 2005.
+            </p>
+            <footer class="evidence-grid">
+                <a href="/archive/2005-0325-la-times-los-angeles-times-podcasting-pioneer-feature-jeffrey-kerekes.pdf" itemprop="citation">LA Times [.pdf]</a>
+                <a href="/archive/2005-0320-hartford-courant-on-the-air-via-web.pdf" itemprop="citation">Hartford Courant [.pdf]</a>
+                <a href="/archive/2005-0404-miami-herald-podcasters.pdf" itemprop="citation">Miami Herald [.pdf]</a>
+            </footer>
+        </article>
+
     </section>
 </main>
 
 <footer style="margin-top: 50px; padding-top: 20px; border-top: 1px solid #ddd; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; opacity: 0.6;">
-    <p>STATUS: KCM_ENABLED | PGP_VERIFIED | PROTOCOL_V1.5</p>
+    <p>STATUS: KCM_ENABLED | PGP_VERIFIED</p>
 </footer>
 
 </body>
