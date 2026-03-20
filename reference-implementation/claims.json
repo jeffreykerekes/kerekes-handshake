@@ -1,0 +1,173 @@
+{
+  "protocol_version": "1.6",
+  "steward": "Jeffrey Kerekes",
+  "fingerprint": "D39E4ACEA4FE3E6B547F58C461743446DFA7D48F",
+  "last_updated": "2026-03-19",
+  "integrity_manifest": "https://jeffreykerekes.com/site_manifest.json.asc",
+  "claims": [
+    {
+      "claim_id": "budget_audit_2007_2011",
+      "title": "Municipal Budget Reconstruction",
+      "description": "Manually reconstructed the 2010-2011 New Haven municipal budget from raw city data, exposing $38k-$42k per-household debt liabilities obscured across 600+ pages. Secured FOI ruling FIC 2009-014 requiring provision of official digital spreadsheets.",
+      "domain": "Civic Systems",
+      "evidence": [
+        "https://jeffreykerekes.com/evidence/2009-0501-nhi-kerekes-fights-for-budget-document-new-haven-independent-annotated.pdf",
+        "https://jeffreykerekes.com/evidence/2009-0501-nhi-kerekes-fights-for-budget-document-new-haven-independent-annotated.txt",
+        "https://jeffreykerekes.com/evidence/2011-main-spreadsheet-all.pdf",
+        "https://jeffreykerekes.com/evidence/2011-main-spreadsheet-all.txt"
+      ],
+      "outcome": "Secured FOI ruling FIC 2009-014; forced municipal government to adopt clearer financial documentation.",
+      "verification_strength": {
+        "self_declared": 8,
+        "rationale": "FOI ruling FIC 2009-014 is a government record verifiable via CT FOI Commission database. Budget spreadsheet is self-reconstructed from city data \u2014 the reconstruction is self-authored, but the FOI ruling and press coverage provide strong independent corroboration.",
+        "ai_assessed": null,
+        "ai_rationale": null
+      }
+    },
+    {
+      "claim_id": "mayoral_campaign_2011",
+      "title": "Dual-Track Mayoral Campaign \u2014 City of New Haven",
+      "description": "Executed a dual-track electoral strategy: ran in the Democratic primary AND simultaneously as an independent in the general election \u2014 a deliberate systems approach to maximize influence channels against an 18-year incumbent in a strong-mayor system. After two years attempting to recruit others to challenge the incumbent and exhausting all board and audit commission influence, ran when no one else would. Spent $53k against the incumbent's $760k (14:1 disadvantage) on a 300-point fiscal reform platform. The dual-track approach was subsequently adopted by other New Haven candidates.",
+      "domain": "Civic Systems",
+      "evidence": [
+        "https://jeffreykerekes.com/archive/2011-0614-kerekes-campaign-packet.pdf",
+        "https://jeffreykerekes.com/archive/2011-0614-nhi-kerekes-people-are-tired-of-destefano-new-haven-independent.pdf",
+        "https://jeffreykerekes.com/archive/2011-0914-nhr-john-destefano-wins-new-haven-democratic-mayoral-primary-after-tough-fight.pdf",
+        "https://jeffreykerekes.com/archive/2026-0209-search-connecticut-post.txt"
+      ],
+      "outcome": "Primary: approximately 2,895 votes. General: 6,550 vs. 7,991 votes \u2014 1,441-vote margin despite 14:1 spending disadvantage. WSJ and NYT covered the race nationally. Dual-track strategy subsequently copied by other New Haven candidates.",
+      "verification_strength": {
+        "self_declared": 9,
+        "rationale": "Election results are public municipal records verifiable via CT Secretary of State and New Haven election archives. Vote counts confirmed in contemporaneous press (New Haven Independent, NH Register, Yale Daily News). WSJ and NYT coverage independently archived. Campaign spending from public Democracy Fund filings. Dual-track adoption by other candidates documented in subsequent election coverage. Near-maximum strength.",
+        "ai_assessed": null,
+        "ai_rationale": null
+      }
+    },
+    {
+      "claim_id": "loa_governance_2020_2026",
+      "title": "Land Owners Association Governance Overhaul",
+      "description": "Authored a 59-page comprehensive governance overhaul for a 250+ lot association, resolving board power struggles that had escalated to repeated confrontations requiring police presence.",
+      "domain": "Civic Systems",
+      "evidence": [
+        "https://jeffreykerekes.com/evidence/2026-0309-Reform-Proposal.pdf",
+        "https://jeffreykerekes.com/evidence/2026-0309-Reform-Proposal.txt"
+      ],
+      "outcome": "Re-engineered organization into a transparent, data-driven Road Maintenance Utility with scoring metrics and fiscal accountability.",
+      "verification_strength": {
+        "self_declared": 5,
+        "rationale": "Self-authored 59-page document. No external verification endpoint \u2014 this is a private organization with no public filing requirement. The document exists and is provided; its impact cannot be independently confirmed via a public record.",
+        "ai_assessed": null,
+        "ai_rationale": null
+      }
+    },
+    {
+      "claim_id": "fire_dept_compliance_2018_2021",
+      "title": "Volunteer Fire Department Operational Recovery",
+      "description": "Predicted state-level regulatory crackdown and stabilized a department facing shutdown due to chronic documentation gaps and county-wide radio repeater failures.",
+      "domain": "Civic Systems",
+      "evidence": [
+        "https://jeffreykerekes.com/evidence/2020-0316-Fire-Marshall.pdf",
+        "https://jeffreykerekes.com/evidence/2020-0316-Fire-Marshall.txt"
+      ],
+      "outcome": "Passed zero-notice State Marshal inspection; community emergency infrastructure preserved.",
+      "verification_strength": {
+        "self_declared": 8,
+        "rationale": "State Marshal inspection report is an official government document. The department's continued operation is independently verifiable. No live lookup endpoint available, but the artifact is a primary government record.",
+        "ai_assessed": null,
+        "ai_rationale": null
+      }
+    },
+    {
+      "claim_id": "clinical_throughput_cambridge",
+      "title": "Clinical Throughput Optimization \u2014 Cambridge Health Alliance",
+      "description": "Replaced a stagnant typewritten bed-finding process at Cambridge Hospital psychiatric ER with a digitized regional network. Expanded active database from 44 to 79 hospitals and 23 to 51 detox units.",
+      "domain": "Human Systems",
+      "evidence": [
+        "https://jeffreykerekes.com/evidence/2003-CHA-DivertStatusRepair.pdf",
+        "https://jeffreykerekes.com/evidence/2003-CHA-DivertStatusRepair.txt"
+      ],
+      "outcome": "Eliminated divert status and multi-day patient boarding; 100% regional capacity coverage achieved.",
+      "verification_strength": {
+        "self_declared": 6,
+        "rationale": "Internal CHA audit document \u2014 third-party institutional record but not publicly filed. The divert status elimination is verifiable in principle but no live public endpoint exists. Strength limited by institutional rather than governmental provenance.",
+        "ai_assessed": null,
+        "ai_rationale": null
+      }
+    },
+    {
+      "claim_id": "clinical_lifesave_2002",
+      "title": "Life-Saving Clinical Intervention",
+      "description": "In psych ER, recognized acute alcohol withdrawal in an agitated patient the team planned to discharge based on presentation and demands to leave. Overrode clinical consensus: contacted shelters, confirmed no psychiatric history, secured medical admission instead.",
+      "domain": "Human Systems",
+      "evidence": [
+        "https://jeffreykerekes.com/evidence/2002-clinical-intervention.pdf",
+        "https://jeffreykerekes.com/evidence/2002-clinical-intervention.txt",
+        "https://jeffreykerekes.com/archive/2002-0222-life-saving.pdf"
+      ],
+      "outcome": "Probable fatal outcome prevented. Documented in internal ER correspondence.",
+      "verification_strength": {
+        "self_declared": 4,
+        "rationale": "Internal ER correspondence \u2014 lowest-verifiability category. The event is documented in institutional records but those records are private by nature (HIPAA). No external verification possible. Honest score: low. The documentation exists; its authenticity cannot be independently confirmed.",
+        "ai_assessed": null,
+        "ai_rationale": null
+      }
+    },
+    {
+      "claim_id": "asset_lifecycle_physical",
+      "title": "Residential Asset Lifecycle & Solo Construction",
+      "description": "Solo-built two residential properties from foundation to finish using YouTube as sole architectural consultant for structural masonry. Self-performed all MEP systems and complete envelope restoration.",
+      "domain": "Physical Systems",
+      "evidence": [
+        "https://jeffreykerekes.com/evidence/2008-certificateofoccupancy.pdf",
+        "https://jeffreykerekes.com/evidence/2008-certificateofoccupancy.txt"
+      ],
+      "outcome": "Achieved legal Certificates of Occupancy for both properties via multi-phase municipal inspections.",
+      "verification_strength": {
+        "self_declared": 8,
+        "rationale": "Certificate of Occupancy is a government-issued document. Municipal building permits and COs are public record in New Haven. Verifiable via city building department records.",
+        "ai_assessed": null,
+        "ai_rationale": null
+      }
+    },
+    {
+      "claim_id": "operational_scaling_environmental",
+      "title": "Operational Scaling \u2014 CT DEP Kellogg Center",
+      "description": "Audited outreach gaps at CT DEP Kellogg Environmental Center; matched 12-month program volume in 5 months by building the first centralized database of 75+ regional youth organizations.",
+      "domain": "Ecological Systems",
+      "evidence": [
+        "https://jeffreykerekes.com/evidence/1998-KelloggEnvironmentalCenter.pdf",
+        "https://jeffreykerekes.com/evidence/1998-KelloggEnvironmentalCenter.txt"
+      ],
+      "outcome": "Authored Connecticut's first official volunteer policy for the DEP; transformed facility community presence and outreach metrics.",
+      "verification_strength": {
+        "self_declared": 6,
+        "rationale": "State agency operational document. CT DEP Kellogg Center records are institutional but not publicly searchable via a live endpoint. The volunteer policy authorship could be verified via CT state archives in principle.",
+        "ai_assessed": null,
+        "ai_rationale": null
+      }
+    },
+    {
+      "claim_id": "podcasting_pioneer_2005",
+      "title": "Podcasting Pioneer \u2014 National Media Feature",
+      "description": "Among the earliest adopters of podcasting as a distribution medium; profiled by LA Times, Hartford Courant, and 10+ national outlets in March-April 2005 as a pioneer of the format before mainstream adoption.",
+      "domain": "Human Systems",
+      "evidence": [
+        "https://jeffreykerekes.com/archive/2005-0325-la-times-los-angeles-times-podcasting-pioneer-feature-jeffrey-kerekes.pdf",
+        "https://jeffreykerekes.com/archive/2005-0320-hartford-courant-on-the-air-via-web.pdf",
+        "https://jeffreykerekes.com/archive/2005-0327-dailyherald-podcasting-a-blog-you-can-listen-to.pdf",
+        "https://jeffreykerekes.com/archive/2005-0404-miami-herald-podcasters.pdf"
+      ],
+      "outcome": "Featured in LA Times, Hartford Courant, Miami Herald, Daily Herald, and 6+ additional national outlets in a single month.",
+      "verification_strength": {
+        "self_declared": 7,
+        "rationale": "10+ independently published national newspaper articles from 2005. Each outlet is a separate third-party source. LA Times, Hartford Courant, Miami Herald archives are independently verifiable. Strength reflects multiple independent corroborating sources without a live endpoint.",
+        "ai_assessed": null,
+        "ai_rationale": null
+      }
+    }
+  ],
+  "proof": {
+    "type": "OpenPGP",
+    "signature": "REGENERATE \u2014 run seal-and-deploy.sh after updating this file"
+  }
+}

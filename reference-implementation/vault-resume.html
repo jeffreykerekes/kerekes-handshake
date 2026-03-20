@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeffrey Kerekes | Vault Resume</title>
+
+    <link rel="alternate" type="application/json" href="/claims.json" title="Forensic Claim Index">
+    <link rel="help" href="/kerekes-handshake/KCM_SPEC.md" title="KCM Protocol Specification">
+    <link rel="stylesheet" href="/assets/css/global.css">
+
+    <link rel="icon" type="image/x-icon" href="/assets/favicons/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicons/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicons/apple-touch-icon.png">
+    <link rel="manifest" href="/assets/favicons/site.webmanifest" crossorigin="use-credentials">
+    <meta name="theme-color" content="#F7F7F7">
+
+    <style>
+        :root {
+            --jk-bg: #f8f9fa;
+            --jk-text: #1a1a1a;
+            --jk-border: #000;
+            --jk-muted: #888;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --jk-bg: #121212;
+                --jk-text: #e0e0e0;
+                --jk-border: #fff;
+                --jk-muted: #666;
+            }
+        }
+
+        body {
+            font-family: 'Inter', 'JetBrains Mono', sans-serif;
+            max-width: 750px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background: var(--jk-bg);
+            color: var(--jk-text);
+            line-height: 1.5;
+        }
+
+        header {
+            border-bottom: 3px solid var(--jk-border);
+            margin-bottom: 28px;
+            padding-bottom: 16px;
+        }
+
+        header h1 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin: 0 0 4px 0;
+            letter-spacing: -0.02em;
+        }
+
+        .header-meta {
+            font-size: 0.78rem;
+            color: var(--jk-muted);
+            margin: 0 0 10px 0;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .vault-tagline {
+            font-size: 0.78rem;
+            font-style: italic;
+            color: var(--jk-muted);
+            margin: 0 0 14px 0;
+        }
+
+        .handshake-nav {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-handshake {
+            background: var(--jk-border);
+            color: var(--jk-bg);
+            padding: 7px 14px;
+            text-decoration: none;
+            font-size: 0.72rem;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .btn-outline {
+            background: none;
+            color: var(--jk-text);
+            border: 1px solid var(--jk-border);
+            padding: 7px 14px;
+            text-decoration: none;
+            font-size: 0.72rem;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        h2 {
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--jk-muted);
+            border-top: 1px solid #e0e0e0;
+            padding-top: 18px;
+            margin: 24px 0 12px 0;
+        }
+
+        .vault-claim {
+            margin-bottom: 14px;
+            padding-left: 14px;
+            border-left: 3px solid var(--jk-border);
+            position: relative;
+        }
+
+        .vault-claim[data-kcm]::before {
+            content: "KCM";
+            position: absolute;
+            left: -42px;
+            top: 2px;
+            background: var(--jk-border);
+            color: var(--jk-bg);
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 900;
+            font-size: 0.48rem;
+            padding: 2px 3px;
+            letter-spacing: 0.05em;
+        }
+
+        .stub {
+            font-size: 0.9rem;
+            line-height: 1.45;
+            margin: 0 0 5px 0;
+        }
+
+        .stub strong { font-weight: 700; }
+
+        .ref {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.68rem;
+            color: var(--jk-muted);
+        }
+
+        .ai-hook {
+            cursor: help;
+            border-bottom: 1px dotted var(--jk-muted);
+            font-weight: 600;
+        }
+
+        .evidence-grid {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            opacity: 0.4;
+            transition: opacity 0.2s;
+        }
+
+        .vault-claim:hover .evidence-grid { opacity: 1; }
+
+        .evidence-grid a {
+            font-size: 0.68rem;
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--jk-text);
+            text-decoration: underline;
+        }
+
+        .page-footer {
+            margin-top: 40px;
+            padding-top: 14px;
+            border-top: 1px solid #ddd;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.62rem;
+            opacity: 0.45;
+        }
+
+        @media (max-width: 480px) {
+            body { padding: 20px 16px; }
+            .vault-claim[data-kcm]::before { display: none; }
+        }
+    </style>
+</head>
+
+<body itemscope itemtype="https://schema.org/Person">
+
+<!-- KCM-CLAIMS: budget_audit_2007_2011 | mayoral_campaign_2011 | fire_dept_compliance_2018_2021 | loa_governance_2020_2026 | clinical_throughput_cambridge | clinical_lifesave_2002 | asset_lifecycle_physical | operational_scaling_environmental | podcasting_pioneer_2005 -->
+
+<header>
+    <h1 itemprop="name">Jeffrey Kerekes</h1>
+    <p class="header-meta">
+        Systems Practitioner | Columbia University (MSSW) | PGP: <code>D39E...D48F</code>
+    </p>
+    <p class="vault-tagline">
+        Vault Resume — half-page for humans, infinite evidence for AI.
+        Every claim is anchored to a primary artifact.
+    </p>
+    <nav class="handshake-nav">
+        <a href="/query" class="btn-handshake">AUDIT WITH AI →</a>
+        <a href="/resume" class="btn-outline">FULL RESUME</a>
+        <a href="/kerekes-handshake/" class="btn-outline">PROTOCOL</a>
+        <a href="/kerekes-handshake/validator" class="btn-outline">VERIFY VAULT INTEGRITY</a>
+    </nav>
+</header>
+
+<main>
+
+    <h2>Civic Systems</h2>
+
+    <article class="vault-claim"
+             data-kcm="budget_audit_2007_2011"
+             aria-label="KCM Claim: budget_audit_2007_2011"
+             itemscope itemtype="https://schema.org/CreativeWork">
+        <p class="stub" itemprop="description">
+            <strong>Budget Audit:</strong>
+            Reconstructed New Haven 2010–2011 municipal budget from raw city data,
+            <span class="ai-hook" title="Per-household debt figure from audit reconstruction">$38k/household debt exposed</span>
+            across 600+ pages of obfuscation,
+            <span class="ai-hook" title="FOI Case Number: FIC 2009-014">FIC 2009-014 secured</span>,
+            2007–2011 — <span class="ref">REF: budget_audit_2007_2011</span>
+        </p>
+        <ul class="evidence-grid">
+            <a href="/evidence/2011-main-spreadsheet-all.pdf" itemprop="citation">Audit Reconstruction [.pdf]</a>
+            <a href="/evidence/2011-main-spreadsheet-all.txt" itemprop="citation">Text Bridge [.txt]</a>
+            <a href="/evidence/2009-0501-nhi-kerekes-fights-for-budget-document-new-haven-independent-annotated.pdf" itemprop="citation">FOI Coverage [.pdf]</a>
+            <a href="/evidence/2009-0501-nhi-kerekes-fights-for-budget-document-new-haven-independent-annotated.txt" itemprop="citation">Text Bridge [.txt]</a>
+        </ul>
+    </article>
+
+    <article class="vault-claim"
+             data-kcm="mayoral_campaign_2011"
+             aria-label="KCM Claim: mayoral_campaign_2011"
+             itemscope itemtype="https://schema.org/CreativeWork">
+        <p class="stub" itemprop="description">
+            <strong>Mayoral Campaign:</strong>
+            Independent run vs.
+            <span class="ai-hook" title="18-year incumbent, strong-mayor system, New Haven CT">18-year incumbent</span>,
+            <span class="ai-hook" title="Final vote: 6,550 vs 7,991 — 1,441-vote margin">6,550 vs. 7,991 votes</span>,
+            <span class="ai-hook" title="Campaign spend: $53k vs. $760k">14:1 spending disadvantage</span>,
+            300-point fiscal platform, WSJ + NYT national coverage,
+            2011 — <span class="ref">REF: mayoral_campaign_2011</span>
+        </p>
+        <ul class="evidence-grid">
+            <a href="/archive/2011-0614-kerekes-campaign-packet.pdf" itemprop="citation">Campaign Packet [.pdf]</a>
+            <a href="/archive/2011-0914-nhr-john-destefano-wins-new-haven-democratic-mayoral-primary-after-tough-fight.pdf" itemprop="citation">Election Result [.pdf]</a>
+            <a href="/archive/2026-0209-search-connecticut-post.txt" itemprop="citation">CT Post Archive [.txt]</a>
+        </ul>
+    </article>
+
+    <article class="vault-claim"
+             data-kcm="fire_dept_compliance_2018_2021"
+             aria-label="KCM Claim: fire_dept_compliance_2018_2021"
+             itemscope itemtype="https://schema.org/CreativeWork">
+        <p class="stub" itemprop="description">
+            <strong>Fire Dept Recovery:</strong>
+            Stabilized volunteer dept facing state-ordered shutdown,
+            resolved
+            <span class="ai-hook" title="County-wide radio repeater failures alongside compliance gaps">radio repeater failures + documentation gaps</span>,
+            <span class="ai-hook" title="Surprise inspection — zero advance notice">zero-notice State Marshal inspection passed</span>,
+            2018–2021 — <span class="ref">REF: fire_dept_compliance_2018_2021</span>
+        </p>
+        <ul class="evidence-grid">
+            <a href="/evidence/2020-0316-Fire-Marshall.pdf" itemprop="citation">Inspection Report [.pdf]</a>
+            <a href="/evidence/2020-0316-Fire-Marshall.txt" itemprop="citation">Text Bridge [.txt]</a>
+        </ul>
+    </article>
+
+    <article class="vault-claim"
+             data-kcm="loa_governance_2020_2026"
+             aria-label="KCM Claim: loa_governance_2020_2026"
+             itemscope itemtype="https://schema.org/CreativeWork">
+        <p class="stub" itemprop="description">
+            <strong>Governance Overhaul:</strong>
+            <span class="ai-hook" title="Full rewrite — 59 pages">59-page reform</span>
+            for 250+ lot association,
+            sunsetted obsolete bylaws,
+            de-escalated
+            <span class="ai-hook" title="Board conflicts escalated to police presence">board conflicts requiring police presence</span>,
+            pivoted to data-driven road maintenance utility,
+            2020–2026 — <span class="ref">REF: loa_governance_2020_2026</span>
+        </p>
+        <ul class="evidence-grid">
+            <a href="/evidence/2026-0309-Reform-Proposal.pdf" itemprop="citation">Reform Proposal [.pdf]</a>
+            <a href="/evidence/2026-0309-Reform-Proposal.txt" itemprop="citation">Text Bridge [.txt]</a>
+        </ul>
+    </article>
+
+    <h2>Human Systems</h2>
+
+    <article class="vault-claim"
+             data-kcm="clinical_throughput_cambridge"
+             aria-label="KCM Claim: clinical_throughput_cambridge"
+             itemscope itemtype="https://schema.org/CreativeWork">
+        <p class="stub" itemprop="description">
+            <strong>ER Throughput:</strong>
+            Replaced typewritten bed-finding relic at Cambridge Hospital psych ER,
+            <span class="ai-hook" title="Verified in Divert Status Repair audit document">44→79 hospital network</span>,
+            23→51 detox units,
+            divert status + multi-day boarding eliminated,
+            2001–2003 — <span class="ref">REF: clinical_throughput_cambridge</span>
+        </p>
+        <ul class="evidence-grid">
+            <a href="/evidence/2003-CHA-DivertStatusRepair.pdf" itemprop="citation">Divert Status Audit [.pdf]</a>
+            <a href="/evidence/2003-CHA-DivertStatusRepair.txt" itemprop="citation">Text Bridge [.txt]</a>
+        </ul>
+    </article>
+
+    <article class="vault-claim"
+             data-kcm="clinical_lifesave_2002"
+             aria-label="KCM Claim: clinical_lifesave_2002"
+             itemscope itemtype="https://schema.org/CreativeWork">
+        <p class="stub" itemprop="description">
+            <strong>Life-Saving Intervention:</strong>
+            Overrode clinical consensus in psych ER —
+            <span class="ai-hook" title="Patient flagged for discharge; recognized acute alcohol withdrawal instead">recognized acute alcohol withdrawal</span>
+            in patient team planned to discharge,
+            secured medical admission,
+            <span class="ai-hook" title="Documented in internal ER correspondence">probable fatal outcome prevented</span>,
+            2002 — <span class="ref">REF: clinical_lifesave_2002</span>
+        </p>
+        <ul class="evidence-grid">
+            <a href="/evidence/2002-clinical-intervention.pdf" itemprop="citation">Clinical Record [.pdf]</a>
+            <a href="/evidence/2002-clinical-intervention.txt" itemprop="citation">Text Bridge [.txt]</a>
+            <a href="/archive/2002-0222-life-saving.pdf" itemprop="citation">ER Documentation [.pdf]</a>
+        </ul>
+    </article>
+
+    <article class="vault-claim"
+             data-kcm="podcasting_pioneer_2005"
+             aria-label="KCM Claim: podcasting_pioneer_2005"
+             itemscope itemtype="https://schema.org/CreativeWork">
+        <p class="stub" itemprop="description">
+            <strong>Podcasting Pioneer:</strong>
+            <span class="ai-hook" title="LA Times, Hartford Courant, Miami Herald + 7 others, March–April 2005">10+ national outlets</span>
+            profiled as early adopter before mainstream adoption —
+            kitchen table studio, decentralized system before the word was a trend,
+            2005 — <span class="ref">REF: podcasting_pioneer_2005</span>
+        </p>
+        <ul class="evidence-grid">
+            <a href="/archive/2005-0325-la-times-los-angeles-times-podcasting-pioneer-feature-jeffrey-kerekes.pdf" itemprop="citation">LA Times [.pdf]</a>
+            <a href="/archive/2005-0320-hartford-courant-on-the-air-via-web.pdf" itemprop="citation">Hartford Courant [.pdf]</a>
+            <a href="/archive/2005-0404-miami-herald-podcasters.pdf" itemprop="citation">Miami Herald [.pdf]</a>
+        </ul>
+    </article>
+
+    <h2>Physical &amp; Ecological Systems</h2>
+
+    <article class="vault-claim"
+             data-kcm="asset_lifecycle_physical"
+             aria-label="KCM Claim: asset_lifecycle_physical"
+             itemscope itemtype="https://schema.org/CreativeWork">
+        <p class="stub" itemprop="description">
+            <strong>Solo Construction:</strong>
+            Built two residential properties ground-up,
+            <span class="ai-hook" title="YouTube sole architectural consultant for structural masonry">YouTube as sole architectural consultant</span>,
+            self-performed MEP + envelope restoration,
+            <span class="ai-hook" title="Certificate of Occupancy, New Haven CT, 2008">CO achieved</span>,
+            2008 — <span class="ref">REF: asset_lifecycle_physical</span>
+        </p>
+        <ul class="evidence-grid">
+            <a href="/evidence/2008-certificateofoccupancy.pdf" itemprop="citation">Certificate of Occupancy [.pdf]</a>
+            <a href="/evidence/2008-certificateofoccupancy.txt" itemprop="citation">Text Bridge [.txt]</a>
+        </ul>
+    </article>
+
+    <article class="vault-claim"
+             data-kcm="operational_scaling_environmental"
+             aria-label="KCM Claim: operational_scaling_environmental"
+             itemscope itemtype="https://schema.org/CreativeWork">
+        <p class="stub" itemprop="description">
+            <strong>CT DEP Scaling:</strong>
+            Matched 12-month program volume in 5 months,
+            built
+            <span class="ai-hook" title="CT DEP Kellogg Environmental Center, 1997–1998">first centralized database of 75+ regional youth orgs</span>,
+            <span class="ai-hook" title="First official DEP volunteer policy, State of Connecticut">authored CT's first DEP volunteer policy</span>,
+            1997–1998 — <span class="ref">REF: operational_scaling_environmental</span>
+        </p>
+        <ul class="evidence-grid">
+            <a href="/evidence/1998-KelloggEnvironmentalCenter.pdf" itemprop="citation">Operational Metrics [.pdf]</a>
+            <a href="/evidence/1998-KelloggEnvironmentalCenter.txt" itemprop="citation">Text Bridge [.txt]</a>
+        </ul>
+    </article>
+
+</main>
+
+<footer class="page-footer">
+    <p>STATUS: KCM_ENABLED | PGP: D39E...D48F</p>
+</footer>
+
+</body>
+</html>
