@@ -85,7 +85,7 @@ Gather primary-source documents: permits, rulings, certifications, inspection re
 For each PDF, create a matching `.txt` sidecar with the same filename. Run the bash command in Section 2 above, or manually copy-paste text with the same filename.
 
 **Step 3 — Build your `claims.json`**  
-Map each claim to its evidence files. Use the [Resume Schema](./kerekes_handshake_v1_schema.json) or the [Universal Claims Schema](./kerekes_universal_claims_schema.json) depending on your use case.
+Map each claim to its evidence files. Use the [Resume Schema](./kerekes_handshake_v1_schema.json) or the [Universal Claims Schema](./kerekes_universal_claims_schema.json) depending on your use case. Set `verification_strength` honestly (see Section 11).
 
 **Step 4 — Tag your HTML**  
 Wrap each claim in `<article data-kcm="your_claim_id">`. This is the semantic hook AI agents use to connect narrative to evidence.
@@ -108,6 +108,7 @@ Host on any static host (GitHub Pages, Netlify, Cloudflare Pages). Enable CORS f
 - [ ] All v1.5 requirements above
 - [ ] Vault Resume Format: Narrative Layer uses dense-stub presentation (see Section 9)
 - [ ] Universal Schema: `claims.json` uses the universal actor/claim/evidence structure where applicable (see Section 10)
+- [ ] Verification Strength: Every claim declares `verification_strength` (see Section 11)
 
 ---
 
@@ -164,36 +165,83 @@ The Kerekes Handshake™ is not limited to resumes. The same protocol applies to
 Actor → Claim → Artifact Vault → Verification
 ```
 
-- **Actor:** Person, company, organization, product, or property
-- **Claim:** The specific statement being asserted
-- **Artifact Vault:** Primary, raw evidence (PDFs, datasets, permits, recordings)
-- **Verification:** Human or AI agent auditing the vault directly
-
 ### The Universal Schema
-The [kerekes_universal_claims_schema.json](./kerekes_universal_claims_schema.json) extends the resume schema to support:
-
-- `actor` field (person, company, product, property, institution)
-- `claim` field (plain-language statement)
-- `evidence` array with typed artifacts (document, dataset, certification, permit, inspection, audio, video, source_file)
-- `external_verification` array — links to `.gov` and third-party public records that create **Deterministic Collisions** if a provided artifact conflicts with the public record
-- `integrity` block — who signed the manifest, when, and where the `.asc` file lives
+The [kerekes_universal_claims_schema.json](./kerekes_universal_claims_schema.json) extends the resume schema to support any domain. See Section 11 for the `verification_strength` field — the most important addition in v1.6.
 
 ### The `/.well-known/claims.json` Standard
-Any actor — a plumber, a nonprofit, a property, a product — can host a standardized discovery endpoint at `/.well-known/claims.json`. This is how the standard spreads: not through mandates, but through adoption.
-
-### Domain Applications
-See [USE_CASES.md](./USE_CASES.md) for full detail on:
-- Trades & Local Services ("Joe the Plumber")
-- Consumer Products ("The Kitchen Sink")
-- Real Estate & Fractional Investment
-- Civic & Political Accountability ("The People's Audit")
-- Nonprofits & Organizational Transparency
-- Creative Professionals (audio, visual, video)
+Any actor — a plumber, a nonprofit, a property, a product — can host a standardized discovery endpoint at `/.well-known/claims.json`. This is how real standards spread: not through mandates, but through adoption.
 
 ### The Deterministic Collision
-When `external_verification` links point to `.gov` records, the protocol can detect fabricated evidence automatically. If a provided PDF doesn't match the public congressional record or licensing database, the Handshake fails. No editorial judgment required — it's the math.
+When `external_verification` links point to `.gov` records or live public endpoints, the protocol can detect fabricated evidence. If a provided PDF conflicts with the public congressional record or licensing database, the Handshake fails automatically. No editorial judgment required — it's the math.
 
 > *"The Kerekes Handshake does not replace journalism. It enhances it by providing direct access to primary artifacts."*
+
+---
+
+## 11. Verification Strength — The Honest Layer
+
+### The Red Team Problem: Self-Certification Is Self-Lying
+
+**This protocol does not prevent fraud. Say that again: it does not prevent fraud.**
+
+A motivated actor can fabricate a PDF, PGP-sign it, and serve it with perfect CORS headers. The signature proves *who vouched for the file and when* — it does not prove the underlying document is authentic. Anyone sophisticated enough to keyword-stuff a resume is sophisticated enough to forge a permit scan.
+
+This is not a new problem. Humans have been lying in professional contexts for as long as professional contexts have existed. The apostille system — the international chain of document certification used to legalize records across borders — took **centuries to develop** precisely because people always lied and always will. That chain works by adding independent vouchers at each step: the notary, the state official, the federal authority, the consulate. No single actor controls the whole chain.
+
+The Kerekes Handshake does not replicate the apostille chain. It does not require it. What it does is **raise the cost and detectability of lying** by anchoring claims to inspectable artifacts. It improves signal over noise. That is a meaningful contribution — not a solved problem.
+
+### The Verification Strength Spectrum
+
+Not all Handshake implementations are equal. Evidence quality exists on a spectrum from self-certified to government-verified:
+
+| Strength | Type | Example | Forgery Difficulty |
+|---|---|---|---|
+| 1–2 | Self-authored document | "I saved $3.4M" Word doc | Trivial |
+| 3–4 | Third-party authored, unlinked | Press article (no live endpoint) | Moderate |
+| 5–6 | Third-party corroborated | Press article + `external_verification` link | Hard |
+| 7–8 | Government record | FOI ruling, permit, inspection report | Very hard |
+| 9 | Live government endpoint | License board lookup, congressional record | Near-impossible to fake |
+| 10 | Live QR-verified vital record | Italy-style embedded verification (QR in document links to issuer) | Impossible without state collusion |
+
+Italy's vital records system — embedding a QR code in the document that links directly to the issuing authority's verification endpoint — represents the current ceiling of document verification. The Handshake's `external_verification` field is the path toward that ceiling.
+
+### The `verification_strength` Field
+
+Every claim in v1.6 **SHOULD** declare its verification strength using two mechanisms:
+
+**1. Self-declaration** (required): The actor declares the strength honestly in `claims.json`:
+
+```json
+"verification_strength": {
+  "self_declared": 7,
+  "rationale": "Municipal permit linked to live county building department lookup"
+}
+```
+
+**2. AI assessment** (recommended): The auditing AI independently rates the strength on a 1–10 Likert scale based on the evidence quality it observes. There is room for subjectivity — a scale captures this better than a binary pass/fail:
+
+```json
+"verification_strength": {
+  "self_declared": 7,
+  "rationale": "Municipal permit linked to live county building department lookup",
+  "ai_assessed": null,
+  "ai_rationale": null
+}
+```
+
+The AI fills in `ai_assessed` and `ai_rationale` during the audit. A gap between `self_declared` and `ai_assessed` is itself a signal.
+
+### What the Protocol Actually Guarantees
+
+| The protocol DOES | The protocol DOES NOT |
+|---|---|
+| Prove who vouched for the evidence | Prove the evidence is authentic |
+| Make fabrication more expensive | Prevent fabrication |
+| Surface conflicts with public records | Guarantee all records are checked |
+| Raise the cost of lying | Eliminate lying |
+| Improve signal over noise | Eliminate noise |
+
+The honest claim: **The Kerekes Handshake moves professional verification from pure narrative to artifact-anchored evidence. It is a significant improvement over the status quo. It is not a solved problem.**
 
 ---
 

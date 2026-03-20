@@ -1,10 +1,10 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "Kerekes Handshake™ — Universal Claim Schema",
-  "description": "A domain-agnostic schema for anchoring any claim to a forensic vault of primary artifacts. Applicable to professional credentials, trades, consumer goods, real estate, civic accountability, nonprofits, and creative portfolios.",
+  "title": "Kerekes Handshake™ — Universal Claim Schema v1.6",
+  "description": "A domain-agnostic schema for anchoring any claim to a forensic vault of primary artifacts. Applicable to professional credentials, trades, consumer goods, real estate, civic accountability, nonprofits, and creative portfolios.\n\nHONEST DISCLOSURE: Self-certification is self-lying. This schema does not prevent fabricated evidence. It makes fabrication more expensive, more detectable via external_verification links, and honestly rated via verification_strength. A PGP signature proves who vouched for the evidence and when — not that the evidence is authentic. The auditor makes the final judgment.",
   "version": "1.6",
   "type": "object",
-  "required": ["claim_id", "actor", "claim", "evidence"],
+  "required": ["claim_id", "actor", "claim", "evidence", "verification_strength"],
   "properties": {
     "claim_id": {
       "type": "string",
@@ -25,11 +25,11 @@
     },
     "claim": {
       "type": "string",
-      "description": "The specific statement being asserted in plain language (e.g., 'Certified for high-pressure gas lines and fully insured as of 2024.')."
+      "description": "The specific statement being asserted in plain language."
     },
     "evidence": {
       "type": "array",
-      "description": "Primary artifacts supporting the claim. Each artifact should have a matching .txt sidecar for AI extraction (the Text Bridge).",
+      "description": "Primary artifacts supporting the claim. Each artifact should have a matching .txt sidecar for AI extraction (the Text Bridge). Note: the presence of an artifact does not prove its authenticity — see verification_strength.",
       "minItems": 1,
       "items": {
         "type": "object",
@@ -54,30 +54,62 @@
     },
     "outcome": {
       "type": "string",
-      "description": "The measurable or verifiable result of the claim (e.g., 'Passed municipal inspection 2024-03-15', 'Certificate valid through 2026-01-01')."
+      "description": "The measurable or verifiable result of the claim."
     },
     "external_verification": {
       "type": "array",
-      "description": "Links to third-party public records that independently corroborate the claim. Creates a Deterministic Collision if a provided artifact conflicts with the public record.",
+      "description": "Links to third-party public records that independently corroborate the claim. When these point to live government endpoints, they create a Deterministic Collision — if a provided artifact conflicts with the public record, the Handshake fails automatically. This is the path toward apostille-level verification strength.",
       "items": {
         "type": "object",
         "required": ["source", "url"],
         "properties": {
           "source": {
             "type": "string",
-            "description": "Name of the third-party source (e.g., 'Connecticut State Licensing Board', 'congress.gov', 'county-assessor.gov')."
+            "description": "Name of the third-party source (e.g., 'Connecticut State Licensing Board', 'congress.gov', 'IRS Form 990 Database')."
           },
           "url": {
             "type": "string",
             "format": "uri",
-            "description": "Direct URL to the public record."
+            "description": "Direct URL to the public record or live verification endpoint."
+          },
+          "endpoint_type": {
+            "type": "string",
+            "enum": ["static_page", "live_lookup", "qr_verified", "database_record"],
+            "description": "Whether this is a static page (weaker) or a live lookup endpoint (stronger). Live endpoints approach Italy-style QR verification."
           }
+        }
+      }
+    },
+    "verification_strength": {
+      "type": "object",
+      "description": "Honest assessment of how verifiable this claim actually is. Self-certification is self-lying — declare this field honestly. The apostille system took centuries to develop because humans always lied. This field acknowledges that reality while providing a useful signal.",
+      "required": ["self_declared"],
+      "properties": {
+        "self_declared": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10,
+          "description": "Actor's honest self-assessment of verification strength on a 1–10 scale. 1–2: self-authored document only. 3–4: third-party authored, no live endpoint. 5–6: third-party corroborated with external link. 7–8: government record with public lookup. 9: live government endpoint verification. 10: Italy-style embedded QR linking to issuing authority."
+        },
+        "rationale": {
+          "type": "string",
+          "description": "Plain-language explanation of why this score was chosen. Be honest about limitations."
+        },
+        "ai_assessed": {
+          "type": ["integer", "null"],
+          "minimum": 1,
+          "maximum": 10,
+          "description": "AI auditor's independent assessment on the same 1–10 scale after reviewing the evidence. Null until assessed. A gap between self_declared and ai_assessed is itself a signal."
+        },
+        "ai_rationale": {
+          "type": ["string", "null"],
+          "description": "AI auditor's explanation for its assessment. Null until assessed."
         }
       }
     },
     "integrity": {
       "type": "object",
-      "description": "Cryptographic provenance layer. Identifies who vouched for the evidence and when.",
+      "description": "Cryptographic provenance layer. Identifies who vouched for the evidence and when. A signature proves who signed — not that the underlying evidence is authentic.",
       "properties": {
         "signature": {
           "type": "string",
@@ -123,9 +155,16 @@
       "external_verification": [
         {
           "source": "State Licensing Board",
-          "url": "https://license.state.gov/verify/12345"
+          "url": "https://license.state.gov/verify/12345",
+          "endpoint_type": "live_lookup"
         }
       ],
+      "verification_strength": {
+        "self_declared": 8,
+        "rationale": "License linked to live state lookup. Fabricating a license that matches the live state database would require compromising the state system.",
+        "ai_assessed": null,
+        "ai_rationale": null
+      },
       "integrity": {
         "signed_by": "Joe Smith — D39E...D48F",
         "manifest_url": "https://joesplumbing.com/site_manifest.json.asc"
@@ -153,9 +192,37 @@
       "external_verification": [
         {
           "source": "New Haven Building Department",
-          "url": "https://citydocs.newhavenct.gov/permits/2022-roof-123elm"
+          "url": "https://citydocs.newhavenct.gov/permits/2022-roof-123elm",
+          "endpoint_type": "database_record"
         }
-      ]
+      ],
+      "verification_strength": {
+        "self_declared": 7,
+        "rationale": "Permit linked to city building department record. Invoice is self-provided with no independent corroboration — a fabricated invoice could match.",
+        "ai_assessed": null,
+        "ai_rationale": null
+      }
+    },
+    {
+      "claim_id": "resume_bullet_self_authored",
+      "actor": "person",
+      "actor_name": "Example Candidate",
+      "domain": "Professional Credentials",
+      "claim": "Increased sales revenue by 40% over 18 months.",
+      "evidence": [
+        {
+          "type": "document",
+          "url": "https://candidate.com/evidence/sales_report_2023.pdf",
+          "description": "Internal sales report authored by the candidate."
+        }
+      ],
+      "outcome": "Revenue increased from $2M to $2.8M.",
+      "verification_strength": {
+        "self_declared": 2,
+        "rationale": "Self-authored internal document. No external corroboration. This is essentially a resume bullet with a PDF attached. Honest score: low.",
+        "ai_assessed": null,
+        "ai_rationale": null
+      }
     },
     {
       "claim_id": "vote_record_environment_1993_2023",
@@ -168,19 +235,21 @@
           "type": "dataset",
           "url": "https://peoples-audit.org/evidence/vote_history_1993_2023.pdf",
           "description": "Complete roll-call voting record on environmental bills, 1993–2023."
-        },
-        {
-          "type": "ledger",
-          "url": "https://peoples-audit.org/evidence/donation_history_1993_2023.pdf",
-          "description": "Donor history cross-referenced against industries affected by votes."
         }
       ],
       "external_verification": [
         {
           "source": "congress.gov",
-          "url": "https://www.congress.gov/member/record/..."
+          "url": "https://www.congress.gov/member/record/...",
+          "endpoint_type": "database_record"
         }
       ],
+      "verification_strength": {
+        "self_declared": 9,
+        "rationale": "Voting records are public federal data. The provided PDF can be verified line-by-line against congress.gov. Cherry-picking specific votes would conflict with the complete public record.",
+        "ai_assessed": null,
+        "ai_rationale": null
+      },
       "integrity": {
         "signed_by": "The People's Audit Project",
         "manifest_url": "https://peoples-audit.org/site_manifest.json.asc"

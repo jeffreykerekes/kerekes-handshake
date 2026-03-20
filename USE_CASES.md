@@ -1,14 +1,26 @@
 # Kerekes Handshake™ — Use Cases & Applications
 
-**From Verifiable Resumes to Deterministic Claims.**
+**From Verifiable Resumes to Evidence-Anchored Claims.**
+
+---
+
+## The Honest Premise
+
+**Self-certification is self-lying.**
+
+Before describing what this protocol does, it is important to say directly what it does not do: it does not prevent fraud. A motivated actor can fabricate a PDF, sign it with PGP, and serve it with a perfect evidence vault. The signature proves *who vouched for the file* — not that the file is authentic.
+
+Humans have been lying in professional contexts for as long as professional contexts have existed. The apostille system — the international chain used to legalize documents across borders — took **centuries to develop** because people always lied and always will. That chain requires a notary, a Secretary of State, a certified translator, and a consulate — four independent vouchers each certifying the last.
+
+The Kerekes Handshake does not replicate that chain. What it does is **raise the cost and detectability of lying** by anchoring claims to inspectable artifacts. The goal is not a solved problem. The goal is a better signal-to-noise ratio than the current system, which has essentially no signal at all.
+
+*This is a meaningful contribution. It is not a guarantee.*
 
 ---
 
 ## The Universal Model
 
-The Kerekes Handshake™ is not a resume tool. It is a universal protocol for moving any domain from **Probabilistic Trust** (guessing based on narrative) to **Deterministic Verification** (auditing based on evidence).
-
-Every application follows the same structural circuit:
+The Kerekes Handshake™ applies to any domain where a claim needs evidence:
 
 ```
 Actor → Claim → Artifact Vault → Verification
@@ -23,11 +35,32 @@ The protocol is **domain-agnostic**. The same `claims.json` structure, Text Brid
 
 ---
 
-## The Core Problem: The Keyword Genius Paradox
+## The Keyword Genius Paradox
 
-AI has made everyone a "keyword genius." When every resume, product description, and political bio is perfectly optimized with the right language, the signal-to-noise ratio drops to zero. A "Perfect 10/10" resume can be generated for anyone in seconds.
+AI has made everyone a "keyword genius." When every resume, product description, and political bio is perfectly optimized, the signal-to-noise ratio drops to zero. A "Perfect 10/10" resume can be generated for anyone in seconds.
 
 **The Handshake ignores keywords. It audits provenance.**
+
+Keyword stuffing costs nothing and leaves no trace. Fabricating a convincing evidence vault with linked government records costs significantly more effort — and when `external_verification` links to a live `.gov` endpoint, the fabrication is automatically detectable. That asymmetry is the value.
+
+---
+
+## Verification Strength
+
+Not all evidence is equal. Every claim should declare and auditors should assess its **verification strength** on a 1–10 scale:
+
+| Score | Evidence Type | Example |
+|---|---|---|
+| 1–2 | Self-authored, unlinked | "I saved $3.4M" Word doc |
+| 3–4 | Third-party authored, no live endpoint | Press article (PDF only) |
+| 5–6 | Third-party corroborated with link | Press article + `external_verification` URL |
+| 7–8 | Government record | FOI ruling, permit, inspection sign-off |
+| 9 | Live government endpoint | License board lookup, congressional record |
+| 10 | Live QR-verified vital record | Italy-style embedded issuer verification |
+
+Italy's vital records — which embed a QR code linking directly to the issuing authority's verification endpoint — represent the current ceiling of document verification. The `external_verification` field in `claims.json` is the path toward that ceiling for any actor who can link to a public record.
+
+The `verification_strength` field in v1.6 allows actors to **self-declare** their score and allows AI auditors to **independently assess** on the same scale. A gap between the two is itself a signal worth reporting.
 
 ---
 
@@ -35,13 +68,17 @@ AI has made everyone a "keyword genius." When every resume, product description,
 
 ### 1. Professional Credentials — "Interview the Resume"
 
-**The Problem:** AI-generated narrative has made resumes indistinguishable. Keywords are cheap; proof is expensive. Traditional resumes force you to kill your best stories to fit a two-page limit.
+**The Problem:** AI-generated narrative has made resumes indistinguishable. Keywords are cheap; proof is expensive. The current system rewards the best writer, not the best practitioner.
+
+**The Honest Limit:** A fabricated FOI document is theoretically possible. The mitigation: the actual FIC 2009-014 ruling exists in the Connecticut FOI Commission's public database. The `external_verification` link creates a Deterministic Collision — if the provided PDF conflicts with the public record, the Handshake fails.
 
 **The Claim:** "Saved the city $3.4M via forensic budget reconstruction."
 
 **The Vault:** Original budget spreadsheets, FOI rulings, council resolutions, press coverage.
 
-**The Value:** Keep the resume to a clean one-page summary while an AI performs a zero-hallucination audit of 20 years of primary evidence. Cram in the kitchen sink — without the cram. The resume becomes a mirror reflecting the vault.
+**Verification strength:** 7–9 depending on whether `external_verification` links to live government endpoints.
+
+**The Value:** Keep the resume to a clean one-page summary while an AI performs an artifact-anchored audit of 20 years of primary evidence. The resume becomes a mirror reflecting the vault.
 
 **Reference implementation:** [jeffreykerekes.com](https://jeffreykerekes.com)
 
@@ -49,13 +86,17 @@ AI has made everyone a "keyword genius." When every resume, product description,
 
 ### 2. Trades & Local Services — "Joe the Plumber"
 
-**The Problem:** Customers rely on easily manipulated 5-star ratings. There is no way to verify that a tradesperson's insurance is current, their license is valid, or their past jobs actually passed inspection.
+**The Problem:** Customers rely on easily manipulated 5-star ratings. Yelp reviews can be purchased. There is no easy way to verify that a tradesperson's license is current or their past work passed inspection.
+
+**The Honest Limit:** A plumber can scan a forged permit. The mitigation: most states have live license lookup databases. An `external_verification` link to the state licensing board endpoint means a fabricated license scan will fail against the live record.
 
 **The Claim:** "Certified for high-pressure gas lines and fully insured."
 
-**The Vault:** Municipal permits, insurance certificates, time-stamped photos of past code-pass inspections.
+**The Vault:** Municipal permits, insurance certificates, time-stamped inspection photos.
 
-**The Value:** A QR code on the service van links to a `/query` portal. An AI assistant can **"interview the van"** before the technician steps into your home — verifying active credentials, insurance status, and recent inspection history without a phone call or background check service.
+**Verification strength:** 5–9 depending on whether state licensing lookup is linked.
+
+**The Value:** A QR code on the service van links to a `/query` portal. An AI assistant can **"interview the van"** before the technician steps into your home — verifying active credentials against public records without a phone call.
 
 > *Shift: From trusting a brand to verifying a system.*
 
@@ -65,107 +106,122 @@ AI has made everyone a "keyword genius." When every resume, product description,
 
 **The Problem:** Marketing compresses complex technical reality into simplified, unverifiable slogans. The 400-page service manual exists; the brochure ignores it.
 
-**The Claim:** "New Dishwasher Model X cleans 30% more efficiently with SteamTech™."
+**The Honest Limit:** A manufacturer can cherry-pick favorable test data. The mitigation: `external_verification` links to Energy Star's public database or third-party lab certifications. Fabricating a test result that doesn't match the public Energy Star record is detectable.
+
+**The Claim:** "New Dishwasher Model X cleans 30% more efficiently."
 
 **The Vault:** Laboratory test datasets, Energy Star raw ratings, unedited internal testing videos, the full service manual.
 
-**The Value:** The manufacturer anchors the brochure to the vault. Marketing is separated from evidence. Consumers who want the kitchen sink get it; those who just want to buy a dishwasher see the clean summary. No cram.
+**Verification strength:** 6–8 when linked to independent certification databases.
 
-> *Shift: From marketing genius to engineering reality.*
+**The Value:** The manufacturer anchors the brochure to the vault. Marketing is separated from evidence. No cram.
+
+> *Shift: From marketing narrative to engineering evidence.*
 
 ---
 
 ### 4. Real Estate & Property Transparency
 
-**The Problem:** Everyone is racing to put property deeds on the blockchain — but ownership is already recorded. What's missing is verifiable *condition history*. Property listings focus on trusting the agent, not verifying the asset.
+**The Problem:** Everyone is racing to put property deeds on the blockchain — but ownership is already recorded. What's missing is verifiable *condition history*. "New roof (2022)" is a claim. The paid invoice and permit are evidence.
+
+**The Honest Limit:** A property owner can produce a fake invoice. The mitigation: building permits are public record in most jurisdictions. An `external_verification` link to the county building department's permit lookup creates the same Deterministic Collision as any other government record.
 
 **The Claim:** "New roof (2022), updated HVAC, no outstanding permits."
 
-**The Vault:** Roofing contracts, paid invoices, before/after photos, permit approvals, mechanical inspection reports, radon test results.
+**The Vault:** Roofing contracts, paid invoices, before/after photos, permit approvals, mechanical inspection reports.
 
-**The Value:** Each property acts as its own Actor with a `claims.json`. You don't buy the listing; you buy the vault. An investor in Mumbai can audit the roof receipt before wiring a fractional share payment.
+**Verification strength:** 7–9 when linked to county permit database.
+
+**The Value:** Each property acts as its own Actor with a `claims.json`. You don't buy the listing; you buy the vault. An investor anywhere in the world can audit the roof receipt before wiring a fractional share payment.
 
 > *"Everyone is racing to put property deeds on the blockchain — but who is putting the new roof receipt in claims.json?"*
-
-**Fractional Real Estate Extension:** For developers selling fractional shares to global investors, the Handshake builds the trust infrastructure the offering requires. An AI agent can verify the rent roll, permit history, and maintenance records automatically — transforming speculative fractional assets into verifiable systems.
 
 ---
 
 ### 5. Civic & Political Accountability — "The People's Audit"
 
-**The Problem:** Political narratives are shaped by press secretaries, selective voting summaries, and probabilistic attack ads. AI has made every press operation a "narrative genius."
+**The Problem:** Political narratives are shaped by press secretaries and selective summaries. AI has made every communications operation a "narrative genius."
+
+**The Honest Limit:** A dossier builder can selectively choose which votes to include. The mitigation: `external_verification` links to congress.gov or state legislature records. The complete voting record is public. Cherry-picking will conflict with the full record when an auditor checks both.
 
 **The Claim:** "A 30-year record of environmental protection."
 
-**The Vault:** Complete roll-call voting history, original bill PDFs, donation ledgers, committee records — all PGP-signed.
+**The Vault:** Complete roll-call voting history, original bill PDFs, donation ledgers, committee records.
 
-**The Value:** Independent researchers build forensic dossiers without needing Super PAC budgets. A voter's AI can audit 30 years of legislative record to ask: "How many times did this politician vote for an environmental measure while simultaneously receiving donations from affected industries?" The AI doesn't guess — it audits the `claims.json`.
+**Verification strength:** 8–9 when linked to official congressional or state legislative records.
+
+**The Value:** Independent researchers build forensic dossiers without Super PAC budgets. A voter's AI can audit a 30-year legislative record directly.
 
 > *"The Kerekes Handshake does not replace journalism. It enhances it by providing direct access to primary artifacts."*
-> *Note: The protocol surfaces primary artifacts. It does not interpret them. The same voting record can support different conclusions depending on context — the Handshake provides the record, not the analysis.*
 
-**The `external_verification` field** links directly to `.gov` records. If a provided PDF doesn't match the congressional record, the Handshake produces a **Deterministic Collision** — the lie surfaces automatically without editorial judgment.
+**Important framing:** The protocol surfaces primary artifacts. It does not interpret them. The same voting record can support different conclusions depending on context — the Handshake provides the record, not the analysis. A tool is only as neutral as its user.
 
 ---
 
 ### 6. Nonprofits & Organizational Transparency
 
-**The Problem:** Donors give based on trust in a brand. Charity watchdogs provide subjective scores. Neither gives direct access to the underlying financials.
+**The Problem:** Donors give based on brand trust. Neither the trust nor the watchdog scores give direct access to the underlying financials.
+
+**The Honest Limit:** Financial statements can be fabricated. The mitigation: nonprofits registered with the IRS are required to file Form 990 publicly. An `external_verification` link to the IRS 990 database or ProPublica Nonprofit Explorer creates a verifiable anchor that conflicts with fabricated numbers.
 
 **The Claim:** "90% of donations go directly to the field."
 
 **The Vault:** PGP-signed forensic audits, real-time ledger snapshots, grant disbursement records.
 
-**The Value:** Donors and watchdogs can audit the claim directly. The nonprofit doesn't ask for trust — it provides proof. The PGP signature tells auditors exactly who vouched for each artifact and when.
+**Verification strength:** 7–9 when linked to public IRS 990 filings.
+
+**The Value:** Donors audit the claim directly instead of trusting a Charity Navigator score.
 
 ---
 
 ### 7. Creative Professionals — "The Death of the Portfolio Hallucination"
 
-**The Problem:** A design portfolio is a collection of pretty pictures that may have been produced by a team, a template, or a client's revisions. A YouTube highlight reel proves nothing about raw skill.
+**The Problem:** A design portfolio is a collection of final outputs. It proves nothing about who produced the work or how.
+
+**The Honest Limit:** Source files can be fabricated or purchased. There is no `.gov` equivalent for creative work — verification relies on forensic analysis of the file itself rather than an external record. This use case sits at the lower end of the verification strength spectrum.
 
 **The Claim:** "Expert in non-destructive editing and complex vector masking."
 
-**The Vault:** The source `.psd` or `.ai` file — not the exported JPEG. The layer stack, named smart objects, and mask history are the evidence. A "keyword genius" can claim Photoshop expertise; only a Handshake-verified designer provides the `.psd` that proves they didn't flatten a stolen image.
+**The Vault:** The source `.psd` or `.ai` file — not the exported JPEG. The layer stack, smart objects, and mask history are the evidence.
 
-**Extension — Audio:** For musicians and vocalists, the vault isn't a spreadsheet — it's a raw, unedited multitrack stem or dry vocal take (no auto-tune). A specialized Audio-LLM can verify pitch, timing, and technique directly from the `.wav` file, bypassing the highly produced YouTube video.
+**Verification strength:** 3–5. Higher than a resume bullet, lower than a government record.
 
-**Extension — Video:** For motion designers, the vault is the project file (`.aep`) and the raw plate footage. A video-analysis AI can verify keyframe complexity and motion-tracking depth without watching the whole reel.
+**Extension — Audio:** Raw, unedited `.wav` stems for musicians. A specialized Audio-LLM can verify pitch and timing directly from the file, bypassing the produced YouTube video.
+
+**Extension — Video:** Project files (`.aep`) and raw plate footage for motion designers. AI verifies keyframe complexity without watching the reel.
 
 ---
 
 ## Core Concepts
 
 ### High-Fidelity Accountability
-Moving from subjective 5-star ratings to objective 5-artifact proofs. The rating system is noise. The artifact is signal.
+Moving from subjective 5-star ratings to objective 5-artifact proofs. The rating is noise. The artifact is signal. The score between the two is the improvement.
 
 ### Reduced Reliance on Intermediaries
-There is no need to pay a third party to "verify" a professional when that professional can provide a PGP-signed chain of custody for their own credentials. The protocol shifts trust from opaque intermediaries to transparent, inspectable evidence.
+The protocol shifts trust from opaque intermediaries to transparent, inspectable evidence. It does not eliminate the need for judgment — it gives auditors better raw material to work with.
 
 ### The Universal Evidence Endpoint
 Every product, person, property, and project should host a standardized `/.well-known/claims.json` endpoint. This is how real standards spread — not through mandates, but through adoption.
 
 ### Interview the Record
-AI systems can bypass narrative summaries and directly analyze the claims, supporting artifacts, and historical patterns. You don't interview the candidate — you **interview the record**.
+You don't interview the candidate — you **interview the record**. The record may be incomplete. The record may be curated. But it is more inspectable than a narrative.
 
-### Evidence Based Hiring (and Buying, and Voting)
-Modern hiring, purchasing, and voting are probabilistic — based on guesses from optimized narratives. The Handshake makes them evidence based (auditing based on primary artifacts rather than narrative) — the math (PGP/hashes) and the artifacts either support the claim or they don't. No ambiguity.
+### Evidence-Based Verification
+The Handshake makes verification **evidence-based**, not deterministic. The math confirms who signed what and when. The auditor confirms whether the evidence is sufficient. Both steps are necessary.
 
 ### The Ice Cream Float
 You aren't building the PDF reader (ice cream) or the PGP library (soda). You are engineering the system that combines them into a verifiable signal. The ingredients are open; the architecture is the invention.
 
 ---
 
-## The Integrity Layer — Defeating Malicious Insertion
-
-As we enter the era of AI-generated fake evidence, the L3 Integrity Layer becomes critical.
+## The Integrity Layer
 
 The `site_manifest.json.asc` (PGP-signed SHA-256 manifest) tells the auditor:
-- **Who** is vouching for each artifact
+- **Who** vouched for each artifact
 - **When** the vault was sealed
 - **Whether** any file has been tampered with since signing
 
-The `external_verification` field in `claims.json` links to third-party public records (`.gov` sites, court databases, regulatory filings). If a provided PDF doesn't match the public record, the Handshake fails automatically — a **Deterministic Collision** that no amount of narrative can override.
+The `external_verification` field links to third-party public records. When that record is a live endpoint — a government database, a licensing board, a vital records QR — the chain approaches apostille-level reliability. When it is a static URL, it is weaker. The `verification_strength` score reflects this honestly.
 
 ---
 
@@ -173,13 +229,13 @@ The `external_verification` field in `claims.json` links to third-party public r
 
 The protocol is open and free. The **implementation** is a professional service.
 
-Many organizations have the evidence but not the architecture. They have the kitchen sink; they need the float. The Handshake consultant:
+Many organizations have the evidence but not the architecture. The Handshake consultant:
 
 1. **Forensic Implementation** — Extracts existing evidence, builds the vault, produces a compliant `claims.json`, PGP-signed manifest, and query portal.
 2. **Seal of Integrity** — Quarterly or annual maintenance: reviews new artifacts, re-signs the manifest, issues updated compliance verification.
-3. **Trust Infrastructure** — For fractional real estate, nonprofit fundraising campaigns, or political accountability projects requiring ongoing credibility.
+3. **Trust Infrastructure** — For fractional real estate, nonprofit fundraising, or political accountability projects requiring ongoing credibility.
 
-> *"I don't just put your property on a website. I turn it into a Verifiable Asset System that an AI agent in Mumbai or London can audit in six seconds."*
+> *"I don't just put your property on a website. I turn it into a Verifiable Asset System that an AI agent anywhere in the world can audit in six seconds — with honest disclosure of what can and cannot be independently confirmed."*
 
 ---
 

@@ -1,29 +1,39 @@
 # Kerekes Handshake™ v1.6
-**A universal protocol for moving any domain from Probabilistic Trust to Deterministic Verification.**
+**A universal protocol for anchoring any claim to primary evidence — auditable by humans and AI.**
 
 > *Everyone is racing to put property deeds on the blockchain — but who is putting the new roof receipt in claims.json?*
-> *This protocol makes claims auditable, not automatically verified. A PGP signature proves who vouched for the evidence — not that the underlying document is authentic. The auditor still makes the final judgment.*
+
+---
+
+## The Honest Position First
+
+**Self-certification is self-lying.** This protocol does not prevent fraud. A motivated actor can fabricate evidence and sign it with PGP. The signature proves who vouched for the file — not that the file is authentic.
+
+Humans have been lying in professional contexts forever. The apostille system — the international chain used to legalize documents across borders — took centuries to develop precisely because people always lied and always will. The Kerekes Handshake does not replicate that chain. What it does is **raise the cost and detectability of lying** by anchoring claims to inspectable artifacts and linking them to independent public records where they exist.
+
+The goal is not a solved problem. The goal is a better signal-to-noise ratio than the current system, which has essentially none.
+
+*That is a meaningful contribution. It is not a guarantee.*
+
 ---
 
 ## The Problem
 
-AI has made everyone a "keyword genius." When every resume, product description, and political bio is perfectly optimized, the signal-to-noise ratio drops to zero. Traditional trust systems — star ratings, editorial summaries, brochures, press releases — are all probabilistic. They ask you to guess.
+AI has made everyone a "keyword genius." When every resume, product description, and political bio is perfectly optimized, the signal-to-noise ratio drops to zero. A "Perfect 10/10" resume can be generated for anyone in seconds.
 
-**The Kerekes Handshake ignores keywords. It audits provenance.**
+**The Handshake ignores keywords. It audits provenance.**
 
 ---
 
 ## What It Is
 
-A lightweight, open protocol that anchors any claim to a forensic vault of primary artifacts, making it auditable by humans and AI agents.
-
-The universal circuit:
+A lightweight, open protocol that anchors any claim to a forensic vault of primary artifacts — making it auditable by humans and AI agents.
 
 ```
 Actor → Claim → Artifact Vault → Verification
 ```
 
-The same protocol that verifies a resume also verifies a plumber's license, a nonprofit's financials, a property's condition history, or a politician's 30-year voting record.
+The same protocol that verifies a resume also verifies a plumber's license, a property's condition history, a nonprofit's financials, or a politician's 30-year voting record.
 
 ---
 
@@ -46,25 +56,32 @@ HUMAN LAYER (half-page):   Dense stubs → six-second scan → "worth a query"
 AI LAYER (infinite vault):  Fetch evidence → verify claims → return verdict
 ```
 
-See [SPEC.md Section 9](./SPEC.md) for the full Vault Resume standard.
+### Verification Strength
+Every claim now declares — and AI independently assesses — how verifiable it actually is on a 1–10 scale:
 
-### Universal Claims
-The same architecture applies to any actor making any claim. See [USE_CASES.md](./USE_CASES.md) for the full range of applications — from Joe the Plumber to fractional real estate to civic accountability.
+| Score | Type | Example |
+|---|---|---|
+| 1–2 | Self-authored only | "I saved $3.4M" Word doc |
+| 3–4 | Third-party, no live endpoint | Press article (PDF only) |
+| 5–6 | Third-party with external link | Press article + `.gov` URL |
+| 7–8 | Government record | FOI ruling, building permit |
+| 9 | Live government endpoint | License board lookup |
+| 10 | Live QR-verified vital record | Italy-style issuer verification |
 
-The generic schema: [kerekes_universal_claims_schema.json](./kerekes_universal_claims_schema.json)
+A gap between the self-declared score and the AI-assessed score is itself a signal worth reporting.
 
 ---
 
 ## Use Cases
 
-| Actor | Claim | The Vault |
-|---|---|---|
-| **Job candidate** | "Saved the city $3.4M" | Budget spreadsheets, FOI rulings, press coverage |
-| **Joe the Plumber** | "Licensed for gas lines" | Permits, insurance certs, inspection photos |
-| **LG Dishwasher** | "Cleans 30% better" | Lab data, Energy Star ratings, service manual |
-| **Real estate listing** | "New roof (2022)" | Paid invoice, permit, inspection sign-off |
-| **Nonprofit** | "90% to the field" | PGP-signed audits, ledger snapshots |
-| **Politician** | "Voted for the environment" | 30-year roll-call history, donation records |
+| Actor | Claim | The Vault | Strength |
+|---|---|---|---|
+| Job candidate | "Saved the city $3.4M" | Budget spreadsheets, FOI rulings | 7–9 |
+| Joe the Plumber | "Licensed for gas lines" | Permits, insurance, inspection photos | 5–9 |
+| LG Dishwasher | "Cleans 30% better" | Lab data, Energy Star ratings | 6–8 |
+| Real estate | "New roof (2022)" | Paid invoice, permit, inspection | 7–9 |
+| Nonprofit | "90% to the field" | PGP-signed audits, IRS 990 | 7–9 |
+| Politician | "Voted for the environment" | 30-year roll-call + congress.gov | 9 |
 
 Full detail: [USE_CASES.md](./USE_CASES.md)
 
@@ -73,24 +90,15 @@ Full detail: [USE_CASES.md](./USE_CASES.md)
 ## Two Ways to Implement
 
 ### Path A — Build It Yourself
-- [SPEC.md](./SPEC.md) — Protocol overview and Vault Resume standard
+- [SPEC.md](./SPEC.md) — Protocol overview, honest limits, and Vault Resume standard
 - [IMPLEMENTATION.md](./IMPLEMENTATION.md) — Full technical reference
-- [USE_CASES.md](./USE_CASES.md) — Domain-specific applications
+- [USE_CASES.md](./USE_CASES.md) — Domain applications with honest verification strength assessments
 - [DEPLOY-CHECKLIST.md](./DEPLOY-CHECKLIST.md) — 5-minute deployment
 
 ### Path B — Let Claude Build It For You
-No coding required. Upload your resume (or any evidence set) to Claude and paste one prompt.
+No coding required. Upload your resume (or any evidence set) and paste one prompt.
 
 → **[CLAUDE_QUICKSTART.md](./CLAUDE_QUICKSTART.md)**
-
----
-
-## Sample Audit Queries
-
-* *"Verify all claims on this resume. Flag anything unsupported."*
-* *"Interview the van: is this plumber's license current and has their work passed inspection?"*
-* *"Audit this politician's 30-year environmental record against their donor history."*
-* *"Verify the property condition claims before I wire a fractional share payment."*
 
 ---
 

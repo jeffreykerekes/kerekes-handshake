@@ -3,21 +3,34 @@
 ## v1.6 (March 2026)
 
 ### Universal Claims Expansion
-- **Added:** Universal Claims Standard — the protocol now applies to any actor making any verifiable claim, not just professional resumes
+- **Added:** Universal Claims Standard — the protocol applies to any actor making any verifiable claim
 - **Added:** `kerekes_universal_claims_schema.json` — generic schema supporting person, company, product, property, and institution actors
-- **Added:** `actor`, `claim`, `external_verification`, and typed `evidence` fields to the universal schema
-- **Added:** `external_verification` field enabling **Deterministic Collisions** — AI-detectable fabrication via `.gov` and third-party public record links
+- **Added:** `USE_CASES.md` — domain-specific application guide with honest verification strength assessments per use case
+- **Added:** `external_verification` field — links to `.gov` and third-party public records enabling Deterministic Collisions when fabricated evidence conflicts with public records
 - **Added:** `/.well-known/claims.json` as the recommended universal discovery endpoint
-- **Added:** `USE_CASES.md` — full domain-specific application guide (trades, consumer goods, real estate, civic/political, nonprofits, creative)
+
+### Verification Strength (New in v1.6)
+- **Added:** `verification_strength` field in `claims.json` — every claim now declares and AI auditors independently assess verification strength on a 1–10 Likert scale
+- **Added:** `self_declared` score with `rationale` — honest self-assessment by the actor
+- **Added:** `ai_assessed` score with `ai_rationale` — independent AI assessment; gap between self-declared and AI-assessed is a signal
+- **Added:** Verification strength spectrum from self-authored document (1–2) to Italy-style live QR-verified vital records (10)
+- **Added:** `endpoint_type` field on `external_verification` entries distinguishing static pages from live lookup endpoints
+
+### Honest Framing (Red Team)
+- **Added:** "Self-Certification Is Self-Lying" section in SPEC.md — direct acknowledgment that the protocol does not prevent fraud
+- **Added:** Historical context: the apostille system took centuries to develop because people always lied and always will
+- **Added:** Per-use-case honest limits in USE_CASES.md — what can and cannot be independently confirmed for each domain
+- **Updated:** "Deterministic Verification" language softened to "Evidence-Based Verification" throughout — more accurate
+- **Updated:** README opens with honest position before benefits
+- **Added:** Table of what the protocol does and does not guarantee
 
 ### Vault Resume
 - **Added:** Vault Resume — Presentation Layer Standard for the Narrative Layer
-- **Added:** Dense-stub format specification with `REF:` claim anchors
-- **Added:** Two-layer model: human (half-page scan) + AI (infinite vault)
-- **Added:** v1.6 compliance checklist (superset of v1.5)
+- **Added:** Dense-stub format with `REF:` claim anchors
+- **Added:** Two-layer model: human half-page + AI infinite vault
 
 ### Note on Versioning
-v1.6 is additive only. All v1.5 infrastructure (Text Bridge, PGP manifest, KCM markup, CORS) is unchanged. The universal claims schema is backward-compatible with the resume schema. Upgrading from v1.5 requires no infrastructure changes.
+v1.6 is additive only. All v1.5 infrastructure (Text Bridge, PGP manifest, KCM markup, CORS) is unchanged. Upgrading from v1.5 requires no infrastructure changes. The `verification_strength` field is new and required in v1.6 compliance.
 
 ---
 
