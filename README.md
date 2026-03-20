@@ -15,6 +15,8 @@ The goal is not a solved problem. The goal is a better signal-to-noise ratio tha
 
 *That is a meaningful contribution. It is not a guarantee.*
 
+**On legal posture:** By PGP-signing a manifest that links claims to evidence, the actor creates a cryptographically timestamped record of deliberate representation. This is structurally distinct from standard resume puffery. Knowingly including fabricated artifacts in a signed vault may constitute fraud in most jurisdictions — transforming a marketing claim into something closer to a commercial representation and warranty. This is not legal advice — consult an attorney for jurisdiction-specific guidance. See [LEGAL.md](./LEGAL.md).
+
 ---
 
 ## The Problem
