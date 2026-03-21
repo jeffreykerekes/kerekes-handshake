@@ -1,0 +1,6 @@
+name = "billowing-haze-terminal"
+pages_build_output_dir = "."
+compatibility_date = "2026-03-16"
+
+[vars]
+ENVIRONMENT = "production"

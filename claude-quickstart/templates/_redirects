@@ -1,0 +1,17 @@
+# Legacy file redirects to new structured locations
+/pubkey.txt                    	/verify/pubkey.txt                	301
+/assets/ai/llms.txt            	/llms.txt                         	301
+/assets/ai/llms-full.txt       	/llms-full.txt                    	301
+/resume_kerekes_systems.md     	/verify/resume_kerekes_systems.md 	301
+/kerekes-handshake/resume.html 	/resume.html                      	301
+/ai-plugin.json                	/.well-known/ai-plugin.json       	301
+/evidence/2026-Reform-Proposal.pdf /evidence/2026-0309-Reform-Proposal.pdf 301
+/kerekes-handshake/KCM_SPEC.md /kerekes-handshake/SPEC.md			301
+/kerekes-handshake/kerekes_handshake_v1_spec.md /kerekes-handshake/IMPLEMENTATION.md 301
+
+
+/archive     					/archive/index.html      			200
+/evidence    					/evidence/index.html     			200
+/kerekes-handshake 				/kerekes-handshake/index.html 		200
+/query       					/query/index.html        			200
+/verify      					/verify/index.html       			200

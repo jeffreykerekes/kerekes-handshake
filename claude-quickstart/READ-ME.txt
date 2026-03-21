@@ -1,0 +1,27 @@
+/claude-quickstart/
+│
+│  ← UPLOAD THESE TO CLAUDE (in order) ──────────────────
+│
+├── 1_KEREKES_HANDSHAKE_DEBUG.md     ← Read first — all failure modes
+├── 2_CLAUDE_QUICKSTART.md           ← Build instructions and prompt
+├── 3_worker.js                      ← Hardened Cloudflare Worker (renamed with prefix)
+├── 4_SPEC.md                        ← v1.6 protocol specification
+│
+│  ← EVIDENCE DOCS ─────────────────────────────────────
+│
+├── DEPLOY.md                        ← Folder architecture quick reference
+│
+│  ← TEMPLATES (SAMPLE HTML/CSS You want emulated) ──────────────────────
+│
+├── templates/
+│   ├── wrangler.toml                ← Cloudflare project config template
+│   ├── _redirects                   ← Cloudflare URL rules template
+│   ├── _headers                     ← Cloudflare static headers template
+│   ├── claims.json                  ← v1.6 claims registry template
+│   ├── site_manifest.json           ← SHA-256 manifest template
+│   └── seal-and-deploy.sh           ← Sign + deploy script
+│
+│  ← REFERENCE IMPLEMENTATION ──────────────────────────
+│
+└── reference/
+    └── (symlink or note pointing to /reference-implementation/)
