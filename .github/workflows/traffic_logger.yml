@@ -1,7 +1,7 @@
 name: Handshake Traffic Logger
 on:
   schedule:
-    - cron: '0 0 * * *' # Runs daily at midnight
+    - cron: '0 0 * * *' # Runs daily at midnight UTC
   workflow_dispatch: # Allows you to run it manually for testing
 
 jobs:
@@ -16,34 +16,41 @@ jobs:
       - name: Fetch Traffic Stats
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Future-proofing: Opts into the 2026 Node.js standard now
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
         run: |
-          # Fetch Clones
+          # Fetch Clones data from GitHub API
           CLONES=$(curl -s -H "Authorization: token $GH_TOKEN" \
             https://api.github.com/repos/${{ github.repository }}/traffic/clones)
           
-          # Fetch Views
+          # Fetch Views data from GitHub API
           VIEWS=$(curl -s -H "Authorization: token $GH_TOKEN" \
             https://api.github.com/repos/${{ github.repository }}/traffic/views)
 
-          # Extract daily totals using basic shell parsing
+          # Extract totals using jq (standard on GitHub runners)
           COUNT_C=$(echo $CLONES | jq '.count // 0')
           UNIQ_C=$(echo $CLONES | jq '.uniques // 0')
           COUNT_V=$(echo $VIEWS | jq '.count // 0')
           UNIQ_V=$(echo $VIEWS | jq '.uniques // 0')
           DATE=$(date +%Y-%m-%d)
 
-          # Append to TRAFFIC_LOG.md (creates it if missing)
+          # Initialize the log file if it doesn't exist
           if [ ! -f TRAFFIC_LOG.md ]; then
-            echo "| Date | Total Clones | Unique Cloners | Total Views | Unique Visitors |" > TRAFFIC_LOG.md
+            echo "# Handshake Protocol Traffic Log" > TRAFFIC_LOG.md
+            echo "Archival record of repository engagement. Data points are 14-day rolling totals captured at the timestamp." >> TRAFFIC_LOG.md
+            echo "" >> TRAFFIC_LOG.md
+            echo "| Date | Total Clones | Unique Cloners | Total Views | Unique Visitors |" >> TRAFFIC_LOG.md
             echo "| :--- | :--- | :--- | :--- | :--- |" >> TRAFFIC_LOG.md
           fi
           
+          # Append the new row
           echo "| $DATE | $COUNT_C | $UNIQ_C | $COUNT_V | $UNIQ_V |" >> TRAFFIC_LOG.md
 
       - name: Commit and Push
         run: |
           git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
+          git config --local user.name "GitHub Action [Bot]"
           git add TRAFFIC_LOG.md
+          # Only commit if the file actually changed; exit gracefully otherwise
           git commit -m "Forensic: Update Traffic Log $DATE [skip ci]" || exit 0
           git push
