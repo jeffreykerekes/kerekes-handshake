@@ -1,0 +1,49 @@
+name: Handshake Traffic Logger
+on:
+  schedule:
+    - cron: '0 0 * * *' # Runs daily at midnight
+  workflow_dispatch: # Allows you to run it manually for testing
+
+jobs:
+  update-log:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Fetch Traffic Stats
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Fetch Clones
+          CLONES=$(curl -s -H "Authorization: token $GH_TOKEN" \
+            https://api.github.com/repos/${{ github.repository }}/traffic/clones)
+          
+          # Fetch Views
+          VIEWS=$(curl -s -H "Authorization: token $GH_TOKEN" \
+            https://api.github.com/repos/${{ github.repository }}/traffic/views)
+
+          # Extract daily totals using basic shell parsing
+          COUNT_C=$(echo $CLONES | jq '.count // 0')
+          UNIQ_C=$(echo $CLONES | jq '.uniques // 0')
+          COUNT_V=$(echo $VIEWS | jq '.count // 0')
+          UNIQ_V=$(echo $VIEWS | jq '.uniques // 0')
+          DATE=$(date +%Y-%m-%d)
+
+          # Append to TRAFFIC_LOG.md (creates it if missing)
+          if [ ! -f TRAFFIC_LOG.md ]; then
+            echo "| Date | Total Clones | Unique Cloners | Total Views | Unique Visitors |" > TRAFFIC_LOG.md
+            echo "| :--- | :--- | :--- | :--- | :--- |" >> TRAFFIC_LOG.md
+          fi
+          
+          echo "| $DATE | $COUNT_C | $UNIQ_C | $COUNT_V | $UNIQ_V |" >> TRAFFIC_LOG.md
+
+      - name: Commit and Push
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add TRAFFIC_LOG.md
+          git commit -m "Forensic: Update Traffic Log $DATE [skip ci]" || exit 0
+          git push
