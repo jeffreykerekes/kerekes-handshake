@@ -33,13 +33,13 @@ A clean JSON array of every career milestone. Each entry includes:
 
 Primary source documents — PDFs of press articles, FOIA records, audited reports, inspection certificates, spreadsheets — paired with lightweight `.txt` sidecar files.
 
-The sidecar gives the auditor exact context (e.g., "See page 14 for the $42,000 per-household liability figure") and serves as a fallback when AI agents cannot parse binary PDFs in real time.
+The sidecar gives the auditor exact context (e.g., "See page 14 for the $42,000 per-household liability figure") and serves as a fallback when AI agents cannot parse binary PDFs in real time. This can be created automatically with a small command line prompt.
 
 ### 2.3 Cryptographic Anchor (site_manifest.json.asc)
 
 A signed manifest containing the SHA-256 hash of every file in the vault, signed with the steward's PGP private key. This is the tamper-evident seal.
 
-The signature proves **who** vouched for the vault and that no file has changed since signing. It does not prove the underlying documents are authentic — that is the honest limit of self-certification.
+The signature proves **who** vouched for the vault and that no file has changed since signing. It does not prove the underlying documents are authentic — that is the honest limit of self-certification (any self certification/claim).
 
 ---
 
@@ -83,7 +83,7 @@ People lie when there are no consequences. This protocol creates consequences.
 
 - AI resume fraud is a primary concern for recruiters in 2026
 - Verifiable credentials and proof-of-work portfolios are rising fast
-- No existing solution covers self-employed, civic, trades, or physical systems claims that no institution will ever formally certify
+- No existing solution covers self-employed, civic, trades, or physical systems claims that no institution will ever formally certify (e.g., no diploma digitally signed by the university).
 
 PoC gives individuals and organizations a free, open-source, decentralized way to create tamper-evident career records that any LLM or ATS can audit in seconds — on a static web host costing nothing to run.
 
