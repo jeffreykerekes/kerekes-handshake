@@ -1,4 +1,7 @@
-# Kerekes Handshake v1.6
+# Kerekes Handshake (TM) v1.6
+
+![Kerekes Handshake — AI Resume Fraud](https://github.com/jeffreykerekes/kerekes-handshake/ai-resume-fraud.jpg)
+
 **A self-certifying evidence framework for claims that no third party will ever certify.**
 
 > *Everyone is racing to put property deeds on the blockchain — but who is putting the new roof receipt in claims.json?*
