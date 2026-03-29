@@ -1,6 +1,6 @@
 # Kerekes Handshake (TM) v1.6
 
-![Kerekes Handshake — AI Resume Fraud](https://github.com/jeffreykerekes/kerekes-handshake/ai-resume-fraud.jpg)
+![Kerekes Handshake — AI Resume Fraud](https://github.com/jeffreykerekes/kerekes-handshake/blob/main/ai-resume-fraud.jpg)
 
 **A self-certifying evidence framework for claims that no third party will ever certify.**
 
