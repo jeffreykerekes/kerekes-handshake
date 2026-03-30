@@ -1,6 +1,13 @@
-# KCM (Kerekes Claim Markup) Specification v1.5
+# KCM (Kerekes Claim Markup) Specification v1.6
 
-KCM is a forensic micro-metadata layer designed to bridge human-readable narratives with cryptographically signed evidence.
+KCM is a lightweight semantic layer that bridges the human-readable resume with the machine-readable claims.json.
+
+**For AI Auditors (Critical Instruction):**
+Always read the **raw HTML source**, not just the rendered page. Look specifically for:
+- The HTML comment `<!-- KCM-CLAIMS: claim_id_1 | claim_id_2 | ... -->` immediately after the opening `<body>` tag.
+- `data-kcm="claim_id"` attributes on claim containers (`<article>`, `<section>`, or `<li>`).
+
+These are invisible in rendered text but essential for mapping narrative to evidence.
 
 ## Core Attributes
 1. `data-kcm="[CLAIM_ID]"`: 

@@ -1,6 +1,8 @@
 [KEREKES HANDSHAKE — IMPLEMENTATION DEBUG CONTEXT]
 [AI ASSISTANT: Load this before debugging any issue with jeffreykerekes.com or the Kerekes Handshake framework. This document captures all known failure modes, architectural decisions, and their resolutions discovered during development.]
 
+Last updated: March 30, 2026
+
 ==============================================================================
 SYSTEM ARCHITECTURE
 ==============================================================================
@@ -52,7 +54,7 @@ FOR MULTIPLE ELEMENTS (e.g. snippet cards, repeated components):
       card.addEventListener('click', () => copySnippet(card));
   });
 
-AFFECTED FILES FIXED IN THIS SESSION:
+AFFECTED FILES FIXED:
 - validator.html (run-btn, clear-btn)
 - query.html / query/index.html (grokBtn, copyBtn, all snippet cards)
 - index.html / root index (launchBtn)
@@ -138,7 +140,7 @@ be included. A FAIL on them in older manifests is expected and harmless.
 KNOWN FAILURE MODE #5 — VALIDATOR CSS LOADS BUT BUTTON BROKEN
 ==============================================================================
 
-This is a combination of failures #1 and the CSP style/script split.
+This is a combination of Failure Mode #1 and the CSP style/script split.
 
 SYMPTOM: Page renders with correct CSS but buttons do not work.
 
@@ -255,6 +257,143 @@ RULE: steward is stable identity — put in manifest. protocol_version changes
 with releases — read from claims.json to avoid mandatory re-signing on bumps.
 
 ==============================================================================
+KNOWN FAILURE MODE #11 — AI AUDITOR 415 ERROR (UNSUPPORTED MEDIA TYPE)
+==============================================================================
+
+SYMPTOM: AI auditor (Grok/Gemini) reports "Unsupported Format", "Empty Response",
+or "Unsupported Media Type" when fetching site_manifest.json.asc or claims.json.
+Browsers may force a file download instead of rendering inline.
+
+ROOT CAUSE: Web servers (Cloudflare/Vercel/Apache) have no default MIME type for
+.asc and .sig files. The server returns 'application/octet-stream', which AI agents
+treat as a binary blob and refuse to parse as text. This breaks the entire
+cryptographic verification chain.
+
+THE FIX — THE SYSTEMS-PURE RESOLUTION:
+Do NOT rename files to .txt. That breaks the PGP convention. Instead, use a
+server-level _headers file to force the correct Content-Type while preserving
+file extension purity.
+
+IMPLEMENTATION — ensure root _headers file contains:
+  /site_manifest.json.asc
+    Content-Type: text/plain; charset=utf-8
+    Content-Disposition: inline
+    Access-Control-Allow-Origin: *
+
+  /claims.json
+    Content-Type: application/json; charset=utf-8
+    Access-Control-Allow-Origin: *
+
+  /verify/pubkey.txt
+    Content-Type: text/plain; charset=utf-8
+    Access-Control-Allow-Origin: *
+
+NOTE: This is also required in the _worker.js CORS path list:
+  url.pathname.endsWith("/site_manifest.json.asc")
+
+ALTERNATIVE (if _headers is not available): Rename to site_manifest.asc.txt and
+update all links in claims.json, index.html, and vault-resume.html. This is the
+less elegant option — the _headers approach above is preferred.
+
+==============================================================================
+KNOWN FAILURE MODE #12 — AI CRAWLER MISSES KCM MARKUP (GROK ON X vs. GROK.COM)
+==============================================================================
+
+SYMPTOM: Grok on X (via @Grok mention) reports "no data-kcm attributes or
+KCM-CLAIMS comment found" even when both are present in the HTML source.
+grok.com verifies successfully with the same prompt.
+
+ROOT CAUSE: The @Grok crawler on X is a lighter, faster agent than the full
+grok.com interface. It typically reads rendered/visible text only — not raw HTML
+source. This means it silently skips:
+- data-kcm="..." attributes (invisible to text parsers)
+- <!-- KCM-CLAIMS: ... --> HTML comments (invisible to text parsers)
+- display:none elements
+
+This is a fundamental difference in crawl budget and parsing depth between
+consumer-tier integrations and full AI interfaces. See SPEC.md Section 12.
+
+THREE-LAYER MITIGATION STRATEGY (in priority order):
+
+  Layer 1 — HTML Comment (existing, keeps working for full crawlers):
+    <!-- KCM-CLAIMS: claim_id_1 | claim_id_2 | ... -->
+    Place immediately after <body> tag. Readable without attribute parsing.
+
+  Layer 2 — Visible Plain-Text Fallback (NEW — required for @Grok on X):
+    Add a visible but visually quiet line at the bottom of every human-facing
+    resume/proposal page:
+
+    <p style="font-size:0.7rem; color:#888; text-align:center; margin-top:3rem;">
+    KCM-CLAIMS: claim_id_1 | claim_id_2 | claim_id_3
+    </p>
+
+    This renders as visible text in the page body — any text-only parser will
+    find it. Style it to match your site's footer aesthetic so it reads as a
+    protocol watermark, not noise.
+
+  Layer 3 — Forensic Manifesto Instruction (existing):
+    The prompt at /query explicitly instructs agents to fetch raw HTML source
+    and look for both data-kcm attributes AND the KCM-CLAIMS comment.
+    This works on grok.com and full AI interfaces. Not reliable on X.
+
+RULE: Always test new prompts on grok.com first. Use the cleaned working version
+on X only after grok.com confirms a successful audit.
+
+==============================================================================
+KNOWN FAILURE MODE #13 — DEPLOYMENT PIPELINE PUBLISH LAG (GITHUB PAGES)
+==============================================================================
+
+SYMPTOM: Changes are committed and pushed but the live site does not update.
+Manifest or HTML files appear stale. Can persist for hours.
+
+ROOT CAUSE: GitHub Pages with cron-based Actions workflows (on: schedule) process
+on a batch queue. Deployments can be delayed significantly during high-traffic
+periods on GitHub's infrastructure.
+
+THE FIX:
+  Option A — Force immediate re-run via empty commit:
+    git commit --allow-empty -m "force deploy: trigger Pages rebuild"
+    git push
+
+  Option B — Switch workflow trigger from schedule to push:
+    # In .github/workflows/deploy.yml, replace:
+    on:
+      schedule:
+        - cron: '0 0 * * *'
+    # With:
+    on:
+      push:
+        branches: [main]
+
+NOTE: Cloudflare Pages does NOT have this issue — it deploys on every push
+via wrangler. This failure mode applies only to GitHub Pages deployments.
+
+==============================================================================
+KNOWN FAILURE MODE #14 — SEAL-AND-DEPLOY.SH: MISSING IDENTITY INTERLOCK
+==============================================================================
+
+SYMPTOM: Deployment succeeds but the published resume.html lacks the PGP
+fingerprint meta tag or pubkey link. AI auditors report "no identity anchor."
+
+ROOT CAUSE: No pre-flight check in seal-and-deploy.sh to validate that identity
+markers are present before signing and deploying. A file edit that accidentally
+removes the fingerprint will silently deploy a broken identity claim.
+
+THE FIX — ADD STEP 0 IDENTITY VALIDATION TO seal-and-deploy.sh:
+  # Step 0: Verify identity anchors are present before signing
+  if ! grep -q 'name="pgp-fingerprint"' resume.html; then
+    echo "ERROR: pgp-fingerprint meta tag missing from resume.html. Aborting."
+    exit 1
+  fi
+  if ! grep -q 'rel="pgp-public-key"' resume.html; then
+    echo "ERROR: pgp-public-key link tag missing from resume.html. Aborting."
+    exit 1
+  fi
+
+Extend this check to any other HTML files that are required to carry identity
+anchors before the site can be considered a valid Kerekes Handshake deployment.
+
+==============================================================================
 MANIFEST FORMAT REFERENCE (seal-and-deploy.sh output)
 ==============================================================================
 
@@ -298,6 +437,30 @@ CORS: Open only on specific paths:
   /llms-full.txt, /llms.txt, /openapi.yaml, /.well-known/
 
 ==============================================================================
+_HEADERS FILE REFERENCE (Cloudflare static overrides)
+==============================================================================
+
+The _headers file in the site root handles MIME type fixes that _worker.js
+does not cover. Required entries:
+
+  /site_manifest.json.asc
+    Content-Type: text/plain; charset=utf-8
+    Content-Disposition: inline
+    Access-Control-Allow-Origin: *
+
+  /claims.json
+    Content-Type: application/json; charset=utf-8
+    Access-Control-Allow-Origin: *
+
+  /verify/pubkey.txt
+    Content-Type: text/plain; charset=utf-8
+    Access-Control-Allow-Origin: *
+
+NOTE: _headers entries apply AFTER _worker.js runs. If _worker.js sets a
+Content-Type header, it takes precedence. Ensure the worker does not override
+these for .asc files.
+
+==============================================================================
 AI CRAWLING KNOWN LIMITATIONS (documented in SPEC.md Section 12)
 ==============================================================================
 
@@ -305,19 +468,46 @@ PROBLEM: AI agents under token pressure parse rendered text not raw HTML source.
   data-kcm attributes are invisible to text parsers.
 MITIGATION: KCM-CLAIMS HTML comment immediately after <body> tag:
   <!-- KCM-CLAIMS: claim_id_1 | claim_id_2 | ... -->
-  This is plain text readable even without HTML parsing.
+  PLUS visible plain-text KCM-CLAIMS line at page bottom (see Failure Mode #12).
 
 PROBLEM: Binary PDFs fail to parse in real-time AI crawls.
-MITIGATION: Text Bridge — every PDF has matching .txt sidecar with same filename.
+MITIGATION: Text Bridge — every PDF has a matching .txt sidecar with same filename.
   /evidence/foo.pdf → /evidence/foo.txt (generated by pdftotext in seal-and-deploy.sh)
 
 PROBLEM: Consumer-tier AI agents have lower token/crawl budgets than enterprise.
 RESULT: Partial audits are expected on free tiers. Not a protocol failure.
 
-PROBLEM: Grok (and others) sometimes save tokens by not reading full HTML source.
-RESULT: May miss data-kcm attributes even when KCM-CLAIMS comment is present.
-MITIGATION: The forensic manifesto in /query explicitly instructs agents to fetch
-  raw HTML source and look for both data-kcm attributes AND KCM-CLAIMS comments.
+PROBLEM: @Grok on X uses a lighter crawler than grok.com.
+RESULT: Misses invisible markup (data-kcm, HTML comments). See Failure Mode #12.
+MITIGATION: Visible plain-text KCM-CLAIMS fallback line at page bottom.
+
+PROBLEM: AI agents (any platform) sometimes fail to parse .asc manifest.
+RESULT: PGP chain verification fails entirely, not just partially.
+MITIGATION: _headers file forcing Content-Type: text/plain. See Failure Mode #11.
+
+CRAWL BUDGET TIERING (observed in practice):
+  Full interface (grok.com, claude.ai, ChatGPT web): reads raw HTML source,
+    follows links, parses attributes. Most reliable for full KCM audit.
+  @Grok on X, Copilot in Office: text-layer only, misses invisible markup.
+  Free-tier agents: lower token budget → partial evidence vault checks.
+
+==============================================================================
+PERFORMANCE TELEMETRY REFERENCE
+==============================================================================
+
+OBSERVED METRICS (as of March 2026):
+  LCP (Largest Contentful Paint): ~590ms P75 — elite tier, no action needed.
+  INP (Interaction to Next Paint): monitor after validator.js ships.
+    Risk: PGP hashing is computationally heavy. If it runs on the main thread
+    during a verification request, it can block UI responsiveness.
+    Fix: yield main thread via requestIdleCallback() or Web Worker for hashing.
+
+ANALYTICS DISCREPANCY NOTE:
+  GitHub traffic graphs: batch-processed, 24-hour lag. Not reliable for same-day
+    verification that a deploy reached the edge.
+  Cloudflare edge logs: real-time. Use these to confirm a fresh deploy is live.
+  CLI metrics (e.g. git clone counts): most accurate for developer traffic.
+  Rule: GitHub graphs for trends; Cloudflare logs for deployment confirmation.
 
 ==============================================================================
 FILE LOCATION REFERENCE
@@ -325,8 +515,8 @@ FILE LOCATION REFERENCE
 
 LIVE SITE ROOT:
   index.html              — User #1/#2/#3 landing (minimalist, easter eggs)
-  resume.html             — Primary resume with 9 KCM claims (served at /resume)
-  claims.json             — 9 claims with verification_strength
+  resume.html             — Primary resume with KCM claims (served at /resume)
+  claims.json             — Claims registry with verification_strength
   site_manifest.json      — SHA-256 manifest (unsigned source)
   site_manifest.json.asc  — PGP-signed manifest (Root of Trust)
   llms.txt                — Short AI disambiguation index
@@ -337,25 +527,28 @@ LIVE SITE ROOT:
   humans.txt              — humans.txt convention file
   seal-and-deploy.sh      — Signs manifest and deploys to Cloudflare
   _worker.js              — Edge CSP/CORS/security configuration
-  _headers                — Cloudflare static header overrides
+  _headers                — Cloudflare static header overrides (MIME fixes)
   _redirects              — Cloudflare URL redirect rules
   wrangler.toml           — Cloudflare Pages project config (excluded from manifest)
 
 SUBDIRECTORIES:
   /evidence/              — Primary source PDFs + .txt sidecars (CORS open)
   /archive/               — Press coverage PDFs + .txt sidecars (CORS open)
-  /verify/                — pubkey.txt, summary.txt (PGP signed), resume_kerekes_systems.md
+  /verify/                — pubkey.txt, summary.txt (PGP signed), resume markdown
   /assets/                — CSS, images, favicons
   /.well-known/           — ai-plugin.json, claims.json discovery
 
   /query/index.html       — HR audit portal (one-button Grok launch)
   /footnotes.html         — Biography easter egg for curious humans
-  
+
   /kerekes-handshake/index.html     — Protocol landing for developers
   /kerekes-handshake/query.html     — Technical audit terminal (full manifesto)
   /kerekes-handshake/validator.html — One-click vault integrity checker
   /kerekes-handshake/vault-resume.html — Dense-stub Vault Resume format demo
   /kerekes-handshake/Kerekes-resume-sample.pdf — PDF resume
+
+  /vault/3-bullet         — Three-bullet human resume variant
+  /vault/vault-resume     — Full vault resume variant
 
 GITHUB REPO (protocol documentation, not personal implementation):
   README.md, SPEC.md, CHANGELOG.md, LEGAL.md, USE_CASES.md
