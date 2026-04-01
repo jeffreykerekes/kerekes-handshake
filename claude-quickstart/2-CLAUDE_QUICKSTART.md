@@ -54,6 +54,7 @@ Follow ALL constraints in KEREKES_HANDSHAKE_DEBUG.md, especially:
 - claims.json and site_manifest.json.asc must be at root
 - Grok button must use: window.open('https://grok.com/chat?q=' + encodeURIComponent(MANIFESTO))
 - The manifesto must tell Grok to FETCH documents from vault URLs — do not ask users to upload
+- Include visible plain-text KCM-CLAIMS line at bottom of every resume/proposal page (Failure Mode #12)
 
 Output every file completely so I can deploy without additional work.
 ```
@@ -145,6 +146,7 @@ See `DEPLOY.md` for the full annotated folder structure. Summary:
 □ Test: Grok button opens with prompt pre-loaded
 □ Test: Quick question cards copy to clipboard
 □ Test: Validator at jeffreykerekes.com/kerekes-handshake/validator
+□ Test: Visible KCM-CLAIMS text line present at bottom of every resume/proposal page
 ```
 
 ---
@@ -245,6 +247,9 @@ Note: `_worker.js` still requires Wrangler CLI — it cannot be drag-and-dropped
 | Permission denied on .sh | Execute bit not set | `chmod +x seal-and-deploy.sh` |
 | Validator shows 2 FAILs | evidence/index.html in manifest | Exclude `./evidence/index.html` in seal-and-deploy.sh |
 | "Signed by: unknown" | No steward field in manifest | Add steward line to seal-and-deploy.sh |
+| AI auditor 415 error on .asc | Server defaults to octet-stream | Add `_headers` file forcing `Content-Type: text/plain` |
+| @Grok on X misses KCM markup | Lighter crawler reads rendered text only | Add visible plain-text KCM-CLAIMS line at page bottom |
+| Live site stale after push | GitHub Pages cron lag | Use `on: push` trigger or force with empty commit |
 
 Full details for every failure mode: `KEREKES_HANDSHAKE_DEBUG.md`
 
