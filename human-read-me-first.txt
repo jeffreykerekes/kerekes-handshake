@@ -1,0 +1,25 @@
+READ ME FIRST – Super Simple Instructions
+
+Hi! Welcome to the Grok QuickStart.
+
+You do NOT need to know how to code.
+
+Here’s exactly what to do (takes about 10–15 minutes to get the files, then a few more minutes with Grok’s help):
+
+1. Download this entire "quickstart-grok" folder.
+2. Gather your resume + ALL your evidence files (PDFs + .txt sidecars).
+3. Upload the whole folder + your resume to Grok.
+4. Paste the prompt inside 2-GROK_QUICKSTART_Machine.md.
+5. Grok will return two files: claims.json and resume.html.
+6. Put your evidence files into the "evidence" folder.
+7. Reply to Grok with the words “next step”.
+
+Grok will then guide you one command at a time through PGP setup and Wrangler/Cloudflare deployment.
+
+That’s it.
+
+Your verifiable resume vault is now ready.
+
+Questions? Just keep chatting with Grok and say “next step” whenever you’re ready for the next instruction.
+
+— Jeffrey
